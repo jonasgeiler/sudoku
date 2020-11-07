@@ -3,7 +3,6 @@
 	import Cell from './Cell.svelte';
 	import { generateSudoku, printSudoku, solveSudoku } from '@sudoku/sudoku';
 	import { encodeSudoku, decodeSencode } from '@sudoku/sencode';
-	import { encodeGrid } from '@sudoku/sencode/index.v2';
 
 	let field = [
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -23,7 +22,6 @@
 		printSudoku(generatedSudoku);
 		const sencode = encodeSudoku(generatedSudoku);
 		console.log(sencode);
-		console.log(encodeGrid(generatedSudoku));
 		field = decodeSencode(sencode);
 
 		const solved = solveSudoku(field);

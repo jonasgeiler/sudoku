@@ -5,4 +5,5 @@ yarn-error.log
 /__sapper__/
 .idea
 .index.css
+tailwind-full.config.js
 pnpm-lock.yaml
