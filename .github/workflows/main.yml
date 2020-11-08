@@ -1,0 +1,30 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    - name: Setup 🔧
+      uses: actions/setup-node@v1.4.2
+    - name: Install ♻
+      run: npm install
+    - name: Build 🏗
+      run: npm run export
+    - run: echo sudoku.skayo.dev > CNAME
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@3.5.3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: __sapper__/export
+        GIT_CONFIG_NAME: SkayoBot
+        GIT_CONFIG_EMAIL: frederike.gnampf@gmail.com
+        CLEAN: true
