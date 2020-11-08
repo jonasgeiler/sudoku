@@ -8,7 +8,7 @@ body {
 
 
 .btn {
-	@apply flex justify-center items-center bg-gray-custom px-5 py-3 border-2 rounded-xl transition-colors duration-100 text-2xl uppercase tracking-wider leading-none font-semibold;
+	@apply flex justify-center items-center bg-gray-custom px-5 py-3 border-2 rounded-xl transition-colors duration-100 text-2xl tracking-wide leading-none font-semibold;
 }
 
 .btn:hover {
@@ -23,28 +23,26 @@ body {
 	@apply outline-none shadow-outline;
 }
 
-@media sm {
-	.btn {
-		@apply text-3xl;
-	}
-}
-
 
 .btn-round {
 	@apply rounded-full p-3;
 }
 
-
-.btn-gray {
-	@apply border-transparent text-gray-800 bg-gray-400;
+.btn-small {
+	@apply px-5 py-3 text-lg;
 }
 
-.btn-gray:hover {
-	@apply bg-gray-500;
+
+.btn-primary {
+	@apply border-transparent text-white bg-primary;
 }
 
-.btn-gray:active {
-	@apply bg-gray-600;
+.btn-primary:hover {
+	@apply bg-primary-dark;
+}
+
+.btn-primary:active {
+	@apply bg-primary-darker;
 }
 
 
@@ -54,6 +52,15 @@ body {
 
 .icon-solid {
 	@apply h-5 inline;
+}
+
+
+.input {
+	@apply p-3 rounded-xl bg-gray-300 text-2xl text-gray-700;
+}
+
+.input:focus {
+	@apply outline-none shadow-outline;
 }
 
 @tailwind utilities;

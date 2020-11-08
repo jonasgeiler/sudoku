@@ -1,9 +1,9 @@
 <script>
 	import { slide, fade } from 'svelte/transition';
+	import { DIFFICULTIES } from '@sudoku/constants';
+	import { difficulty } from '@sudoku/stores/difficulty';
 
 	let menuOpened = false;
-	let difficulties = { 'Very Easy': 'VeryEasy', Easy: 'Easy', Medium: 'Medium', Hard: 'Hard' };
-	let difficulty = 'Easy';
 </script>
 
 <div class="dropdown">
@@ -12,20 +12,20 @@
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h12" />
 		</svg>
 
-		<span class="text-2xl tracking-wider">{difficulty}</span>
+		<span class="text-2xl tracking-wider">{DIFFICULTIES[$difficulty]}</span>
 	</button>
 
 	{#if menuOpened}
 		<button transition:fade class="dropdown-overlay" on:click={() => menuOpened = false} tabindex="-1"></button>
 
 		<div transition:slide class="dropdown-menu">
-			{#each Object.entries(difficulties) as [difficultyName, difficultyVal], difficultyId}
-				<a class="dropdown-item" on:click|preventDefault={() => difficulty = difficultyVal} href="/difficulty-{difficultyVal.toLowerCase()}" title="Set difficulty to {difficultyName}">
+			{#each Object.entries(DIFFICULTIES) as [difficultyValue, difficultyLabel]}
+				<a class="dropdown-item" on:click|preventDefault={() => difficulty.set(difficultyValue)} href="/difficulty-{difficultyValue}" title="Set difficulty to {difficultyLabel}">
 					<svg class="icon-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
 					</svg>
 
-					<span class="align-middle">{difficultyName}</span>
+					<span class="align-middle">{difficultyLabel}</span>
 				</a>
 			{/each}
 
@@ -77,6 +77,6 @@
 	}
 
 	.dropdown-item:active {
-		@apply bg-opacity-75;
+		@apply bg-primary-dark;
 	}
 </style>

@@ -1,7 +1,8 @@
 <script>
-	import Controls from './_components/Controls/index.svelte';
-	import Header from './_components/Header/index.svelte';
-	import Board from './_components/Board/index.svelte';
+	import Board from '../components/Board/index.svelte';
+	import Controls from '../components/Controls/index.svelte';
+	import Header from '../components/Header/index.svelte';
+	import Modal from '../components/Modal/index.svelte';
 </script>
 
 <svelte:head>
@@ -22,3 +23,5 @@
 <footer>
 	<Controls />
 </footer>
+
+<Modal />

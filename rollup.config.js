@@ -45,7 +45,7 @@ export default {
 			svelte({
 				dev,
 				hydratable: true,
-				css: false,
+				emitCss: false,
 				preprocess
 			}),
 			url({
@@ -100,7 +100,7 @@ export default {
 				generate:   'ssr',
 				hydratable: true,
 				dev,
-				css: false,
+				emitCss: false,
 				preprocess
 			}),
 			url({

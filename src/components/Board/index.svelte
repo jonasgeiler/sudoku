@@ -17,15 +17,6 @@
 	];
 
 	onMount(() => {
-		const generatedSudoku = generateSudoku('hard');
-
-		printSudoku(generatedSudoku);
-		const sencode = encodeSudoku(generatedSudoku);
-		console.log(sencode);
-		field = decodeSencode(sencode);
-
-		const solved = solveSudoku(field);
-		printSudoku(solved);
 	});
 </script>
 

@@ -8,8 +8,12 @@ module.exports = {
         full: '100%'
       },
       colors: {
-        primary: '#2979fa', // '#0099ff',
+        primary: '#2979fa',
+        'primary-dark': '#256de1',
+        'primary-darker': '#2161c8',
+
         secondary: '#f2f7ff',
+
         'gray-custom': '#f7f9fc',
       },
       zIndex: {
@@ -25,6 +29,7 @@ module.exports = {
     content: ['./src/**/*.svelte', './src/**/*.html'],
     options: {
       whitelist: [/^(row|col)-start-/],
+      //defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     },
   },
   future:   {
