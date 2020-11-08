@@ -3,7 +3,7 @@
 	"theme_color": "#333333",
 	"name": "Sudoku",
 	"short_name": "Sudoku",
-	"display": "minimal-ui",
+	"display": "standalone",
 	"start_url": "/",
 	"icons": [
 		{
