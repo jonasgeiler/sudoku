@@ -28,7 +28,7 @@ module.exports = {
   purge:    {
     content: ['./src/**/*.svelte', './src/**/*.html'],
     options: {
-      whitelist: [/^(row|col)-start-/],
+      whitelistPatterns: [/^(row|col)-start-/],
       //defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     },
   },
