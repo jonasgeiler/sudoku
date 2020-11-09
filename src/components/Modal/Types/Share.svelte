@@ -3,6 +3,8 @@
 	import { modal } from '@sudoku/stores/modal';
 
 	export let data = {};
+	export let hideModal = () => {
+	};
 	export let copyText;
 
 	const link = BASE_URL + '?' + data.code;
@@ -16,9 +18,17 @@
 	}
 </script>
 
-<h1 class="text-3xl font-semibold mb-6 leading-none">Share Sudoku</h1>
+<div class="flex justify-between items-center mb-6">
+	<h1 class="text-3xl font-semibold leading-none">Share Sudoku</h1>
 
-<div class="flex">
+	<div class="cursor-pointer" on:click={hideModal}>
+		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+		</svg>
+	</div>
+</div>
+
+<div class="code-container">
 	<input class="input code-field" type="text" readonly value="{data.code}" on:click={e => select(e.target)}>
 
 	<button class="btn btn-copy" on:click={copyText(data.code)}>
@@ -74,12 +84,30 @@
 </div>
 
 <style>
+	.code-container {
+		@apply flex flex-col;
+	}
+
 	.code-field {
-		@apply flex-grow rounded-r-none font-mono text-center;
+		@apply rounded-b-none font-mono text-center;
 	}
 
 	.btn-copy {
-		@apply p-3 rounded-l-none;
+		@apply p-3 rounded-t-none;
+	}
+
+	@screen sm {
+		.code-container {
+			@apply flex-row;
+		}
+
+		.code-field {
+			@apply flex-grow rounded-bl-xl rounded-r-none;
+		}
+
+		.btn-copy {
+			@apply rounded-tr-xl rounded-l-none;
+		}
 	}
 
 
