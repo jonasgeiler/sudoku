@@ -21,14 +21,14 @@ jobs:
       - name: Build 🏗
         run: npm run build
 
-      - run: echo sudoku.skayo.dev > public/CNAME
+      - run: echo sudoku.skayo.dev > dist/CNAME
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: public
+          FOLDER: dist
           GIT_CONFIG_NAME: SkayoBot
           GIT_CONFIG_EMAIL: frederike.gnampf@gmail.com
           CLEAN: true

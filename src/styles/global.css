@@ -6,6 +6,18 @@ body {
 	@apply bg-cover bg-no-repeat bg-gray-custom;
 }
 
+#app {
+	@apply flex flex-col h-screen;
+}
+
+#app > header {
+	@apply flex-grow;
+}
+
+#app > footer {
+	@apply flex flex-grow flex-col justify-end;
+}
+
 
 .btn {
 	@apply flex justify-center items-center bg-gray-custom px-5 py-3 border-2 rounded-xl transition-colors duration-100 text-2xl tracking-wide leading-none font-semibold;

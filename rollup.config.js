@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
+import copy from 'rollup-plugin-copy';
 
 const mode = process.env.NODE_ENV;
 const production = mode === 'production';
@@ -46,20 +47,36 @@ const preprocess = sveltePreprocess({
 export default {
 	input:   'src/main.js',
 	output:  {
-		file:      'public/build/bundle.js',
+		file:      'dist/bundle.js',
 		sourcemap: !production,
 		format:    'iife',
 		name:      'app',
 	},
 	plugins: [
+		copy({
+			targets: [
+				{ src: 'src/template.html', dest: 'dist', rename: 'index.html' },
+				{ src: 'static/**/*', dest: 'dist' },
+			],
+		}),
+
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file - better for performance
+
 			css: css => {
-				css.write('bundle.css', !production);
+				if (production) {
+					// First line of code is global css, let's consider this as "critical css" and extract it
+					const lines = css.code.split('\n');
+					const criticalCss = lines.shift();
+					css.emit('bundle.css', lines.join('\n'));
+					css.emit('critical.css', criticalCss);
+				} else {
+					// In dev mode just write everything into the bundled css
+					css.write('bundle.css');
+				}
 			},
+
 			// preprocess svelte files
 			preprocess,
 		}),
@@ -79,9 +96,9 @@ export default {
 		// the bundle has been generated
 		!production && serve(),
 
-		// Watch the `public` directory and refresh the
+		// Watch the `dist` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('public'),
+		!production && livereload('dist'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify

@@ -7,7 +7,7 @@
 
 	const MODALS_DISABLED_OVERLAY = [];
 
-	let copyText;
+	export let copyText;
 
 	function handleOverlayClick() {
 		if (!MODALS_DISABLED_OVERLAY.includes($modal)) {
@@ -27,8 +27,6 @@
 		</div>
 	</div>
 {/if}
-
-<Clipboard bind:copyText />
 
 <style>
 	.modal {
