@@ -8,13 +8,60 @@
 
 		<title>Sudoku | Not Found</title>
 
-		<link rel="stylesheet" href="/critical.css">
 		<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 		<link rel="icon" type="image/png" href="favicon.png">
 
 		<style>
+			*, ::before, ::after {
+				box-sizing:   border-box;
+				border-width: 0;
+				border-style: solid;
+				border-color: #e2e8f0;
+			}
+
+			html {
+				box-sizing: border-box;
+				border-width: 0;
+				border-style: solid;
+				border-color: #e2e8f0;
+				font-family:  system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+				line-height:  1.5;
+				-webkit-text-size-adjust: 100%;
+			}
+
+			body {
+				background-image:  url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%232979fa' fill-opacity='1' d='M0,160L48,154.7C96,149,192,139,288,144C384,149,480,171,576,165.3C672,160,768,128,864,133.3C960,139,1056,181,1152,192C1248,203,1344,181,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3e%3c/path%3e%3c/svg%3e");
+				background-size:   cover;
+				background-repeat: no-repeat;
+				background-color:  #f7f9fc;
+				margin: 0;
+			}
+
+			blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+				margin: 0;
+			}
+
+			.error-container {
+				display:         flex;
+				flex-wrap:       wrap;
+				align-items:     center;
+				justify-content: center;
+				height:          100vh;
+				width:           100vw;
+			}
+
+			.error-box {
+				background-color: white;
+				border-radius:    0.75rem;
+				padding:          3rem;
+				box-shadow:       0 25px 50px -12px rgba(0, 0, 0, 0.25);
+				text-align:       center;
+			}
+
 			.error-text {
 				font-size: 130px;
+				line-height: 1;
+				font-weight: inherit;
 			}
 
 			@media (min-width: 768px) {
@@ -22,19 +69,44 @@
 					font-size: 220px;
 				}
 			}
+
+			.error-subtext {
+				font-size: 2.25rem;
+				font-weight: inherit;
+			}
+
+			.footer {
+				font-size: 1.25rem;
+				margin-bottom: 1.5rem;
+				position: fixed;
+				bottom: 0;
+				text-align: center;
+				width: 100vw;
+			}
+
+			.footer-text {
+				color: #718096;
+			}
+
+			.footer-link {
+				border-bottom-width: 1px;
+				background-color: transparent;
+				color: inherit;
+				text-decoration: inherit;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="h-screen w-screen flex justify-center items-center flex-wrap">
-			<div class="bg-white shadow-2xl rounded-xl px-12 py-12 text-center">
-				<h1 class="font-sans error-text leading-none">404</h1>
-				<h2 class="font-sans text-4xl">Not Found</h2>
+		<div class="error-container">
+			<div class="error-box">
+				<h1 class="error-text">404</h1>
+				<h2 class="error-subtext">Not Found</h2>
 			</div>
 		</div>
 
-		<div class="fixed w-screen bottom-0 mb-6 text-center text-xl">
-			<span class="text-gray-600">Take me back to the</span>
-			<a class="border-b" href="/">Homepage</a>
+		<div class="footer">
+			<span class="footer-text">Take me back to the</span>
+			<a class="footer-link" href="/">Homepage</a>
 		</div>
 	</body>
 </html>
