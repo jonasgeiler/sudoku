@@ -98,7 +98,9 @@ export default {
 
 		// Watch the `dist` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('dist'),
+		!production && livereload({
+			watch: ['dist/bundle.js', 'dist/bundle.css']
+		}),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
