@@ -18,7 +18,7 @@
 	     class:user-number={grid.isEmpty($grid, cellX, cellY)}
 	     class:selected={cursor.isAt($cursor, cellX, cellY)}
 	     class:same-area={!cursor.isAt($cursor, cellX, cellY) && cursor.isInArea($cursor, cellX, cellY)}
-	     class:same-number={!cursor.isAt($cursor, cellX, cellY) && !cursor.isInitial($cursor) && value && grid.get($grid, $cursor.x, $cursor.y) === value}>
+	     class:same-number={!cursor.isAt($cursor, cellX, cellY) && !cursor.isInitial($cursor) && value && (grid.get($grid, $cursor.x, $cursor.y) || grid.get($userGrid, $cursor.x, $cursor.y)) === value}>
 		<button class="absolute inset-0 h-full w-full focus:outline-none" on:click={cursor.set(cellX, cellY)}>
 			<span class="leading-full text-2xl sm:text-3xl">{value || ''}</span>
 		</button>
