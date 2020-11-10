@@ -54,7 +54,7 @@
 
 <style>
 	.action-buttons {
-		@apply flex justify-evenly self-end;
+		@apply flex flex-wrap justify-evenly self-end;
 	}
 
 	.btn-badge {

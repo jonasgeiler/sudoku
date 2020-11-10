@@ -4,6 +4,9 @@ module.exports = {
       center: true
     },
     extend: {
+      screens: {
+        'xs': '430px'
+      },
       lineHeight: {
         full: '100%'
       },
