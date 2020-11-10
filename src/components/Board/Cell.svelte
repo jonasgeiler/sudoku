@@ -2,7 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
-	import { grid, userGrid } from '@sudoku/stores/grid';
+	import { grid, userGrid, invalidCells } from '@sudoku/stores/grid';
 	import { settings } from '@sudoku/stores/settings';
 	import { timerRunning } from '@sudoku/stores/timer';
 
@@ -24,7 +24,7 @@
 	                value &&
 	                (grid.get($grid, $cursor.x, $cursor.y) || grid.get($userGrid, $cursor.x, $cursor.y)) === value;
 
-	$: conflictingNumber = $settings.highlightConflicting && !grid.isValid($grid, $userGrid, cellX, cellY, value);
+	$: conflictingNumber = $settings.highlightConflicting && $invalidCells.includes(cellX + ',' + cellY);
 </script>
 
 <div class="cell row-start-{cellY} col-start-{cellX}"
