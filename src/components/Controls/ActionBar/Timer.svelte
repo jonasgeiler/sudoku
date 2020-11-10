@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { timer, timerRunning } from '@sudoku/stores/timer';
-	import { timeToString } from '@sudoku/helpers';
+	import { formatTime } from '@sudoku/helpers';
 	import { settings } from '@sudoku/stores/settings';
 
 	onMount(() => {
@@ -13,7 +13,7 @@
 
 <div class="timer-container">
 	{#if $settings.displayTimer}
-		<span class="timer-text" title="Time">{timeToString($timer)}</span>
+		<span class="timer-text" title="Time">{formatTime($timer)}</span>
 	{/if}
 
 	<button class="btn btn-round" on:click={() => $timerRunning ? timer.pause() : timer.start()} title="{$timerRunning ? 'Pause Game' : 'Resume Game'}">
