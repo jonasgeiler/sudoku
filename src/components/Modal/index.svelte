@@ -1,5 +1,4 @@
 <script>
-	import Clipboard from '../Utils/Clipboard.svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { modal, modalData } from '@sudoku/stores/modal';
 	import { MODAL_NONE } from '@sudoku/constants';

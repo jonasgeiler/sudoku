@@ -1,4 +1,5 @@
 <script>
+	import { timer } from '@sudoku/stores/timer';
 	import { slide, fade } from 'svelte/transition';
 	import { DIFFICULTIES } from '@sudoku/constants';
 	import { difficulty } from '@sudoku/stores/difficulty';
@@ -10,12 +11,23 @@
 		difficulty.set(difficultyValue);
 		grid.generate(difficultyValue);
 		userGrid.reset();
-		menuOpened = false;
+
+		setDropdown(false);
+	}
+
+	function setDropdown(state) {
+		menuOpened = state || !menuOpened;
+
+		if (menuOpened) {
+			timer.pause();
+		} else {
+			setTimeout(() => timer.start(), 100);
+		}
 	}
 </script>
 
 <div class="dropdown">
-	<button class="dropdown-button" on:click={() => menuOpened = !menuOpened} title="{menuOpened ? 'Close' : 'Open'} Menu">
+	<button class="dropdown-button" on:click={() => setDropdown()} title="{menuOpened ? 'Close' : 'Open'} Menu">
 		<svg class="icon-outline mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h12" />
 		</svg>
@@ -24,7 +36,7 @@
 	</button>
 
 	{#if menuOpened}
-		<button transition:fade class="dropdown-overlay" on:click={() => menuOpened = false} tabindex="-1"></button>
+		<button transition:fade class="dropdown-overlay" on:click={() => setDropdown(false)} tabindex="-1"></button>
 
 		<div transition:slide class="dropdown-menu">
 			{#each Object.entries(DIFFICULTIES) as [difficultyValue, difficultyLabel]}

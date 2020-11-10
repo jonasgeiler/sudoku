@@ -1,13 +1,16 @@
 <script>
 	import { modal } from '@sudoku/stores/modal';
 	import { grid } from '@sudoku/stores/grid';
+	import { timer } from '@sudoku/stores/timer';
 
 	function handleShareButton() {
-		modal.show('share', { code: grid.getSencode($grid) });
+		timer.pause();
+		modal.show('share', { code: grid.getSencode($grid), startTimerOnHide: true });
 	}
 
 	function handleSettingsButton() {
-		modal.show('settings');
+		timer.pause();
+		modal.show('settings', { startTimerOnHide: true });
 	}
 </script>
 
