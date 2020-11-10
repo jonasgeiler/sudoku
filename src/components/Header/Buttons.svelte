@@ -1,8 +1,9 @@
 <script>
 	import { modal } from '@sudoku/stores/modal';
+	import { grid } from '@sudoku/stores/grid';
 
 	function handleShareButton() {
-		modal.show('share', { code: 'c5qtEbdOj19dL1-1XejnjAVJT81AcC8pPX15JJhAGFFVP6NFQsViOdPvPNx6U' });
+		modal.show('share', { code: grid.getSencode($grid) });
 	}
 
 	function handleSettingsButton() {
