@@ -2,7 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import Switch from '../../Utils/Switch.svelte';
 	import { settings as settingsStore } from '@sudoku/stores/settings';
-	import { GRID_LENGTH } from '@sudoku/constants';
+	import { MAX_HINTS } from '@sudoku/constants';
 
 	export let data = {};
 	export let hideModal = () => {
@@ -16,7 +16,7 @@
 		settings.hintsLimited = hintsLimited;
 
 		if (settings.hints < 0) settings.hints = 0;
-		if (settings.hints > GRID_LENGTH) settings.hints = 81;
+		if (settings.hints > MAX_HINTS) settings.hints = MAX_HINTS;
 
 		settingsStore.set(settings);
 		hideModal();
