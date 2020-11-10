@@ -3,7 +3,7 @@
 	import Actions from './Actions.svelte';
 </script>
 
-<div class="action-bar">
+<div class="action-bar space-y-3 sm:space-y-0">
 	<Timer />
 
 	<Actions />
@@ -11,6 +11,12 @@
 
 <style>
 	.action-bar {
-		@apply flex flex-wrap justify-between pb-5;
+		@apply flex flex-col flex-wrap justify-between pb-5;
+	}
+
+	@screen sm {
+		.action-bar {
+			@apply flex-row;
+		}
 	}
 </style>

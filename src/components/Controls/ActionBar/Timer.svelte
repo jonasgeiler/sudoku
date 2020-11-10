@@ -29,7 +29,7 @@
 
 <style>
 	.timer-container {
-		@apply flex items-center bg-gray-300 rounded-full;
+		@apply flex items-center bg-gray-300 rounded-full self-start;
 	}
 
 	.timer-text {

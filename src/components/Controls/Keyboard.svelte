@@ -37,6 +37,6 @@
 
 
 	.btn-key {
-		@apply py-4;
+		@apply py-4 px-0;
 	}
 </style>

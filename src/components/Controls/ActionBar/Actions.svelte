@@ -17,7 +17,7 @@
 	}
 </script>
 
-<div class="flex justify-evenly space-x-3">
+<div class="action-buttons space-x-3">
 
 	<button class="btn btn-round" disabled={!$timerRunning} title="Undo">
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,6 +53,10 @@
 
 
 <style>
+	.action-buttons {
+		@apply flex justify-evenly self-end;
+	}
+
 	.btn-badge {
 		@apply relative;
 	}
