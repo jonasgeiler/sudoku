@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { grid } from '@sudoku/stores/grid';
+	import { timerRunning } from '@sudoku/stores/timer';
 	import { generateSudoku, printSudoku, solveSudoku } from '@sudoku/sudoku';
 	import { encodeSudoku, decodeSencode } from '@sudoku/sencode';
 	import Cell from './Cell.svelte';
@@ -15,7 +15,7 @@
 	</div>
 	<div class="board-padding absolute inset-0 flex justify-center">
 
-		<div class="bg-white shadow-2xl rounded-xl overflow-hidden w-full h-full max-w-xl grid">
+		<div class="bg-white shadow-2xl rounded-xl overflow-hidden w-full h-full max-w-xl grid" class:bg-gray-200={!$timerRunning}>
 
 			{#each Array(9) as _, row}
 				{#each Array(9) as _, col}
