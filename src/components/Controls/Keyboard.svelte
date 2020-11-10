@@ -16,27 +16,35 @@
 		switch (e.key || e.keyCode) {
 			case 'ArrowUp':
 			case 38:
+			case 'w':
+			case 87:
 				cursor.move(0, -1);
 				break;
 
 			case 'ArrowDown':
 			case 40:
+			case 's':
+			case 83:
 				cursor.move(0, 1);
 				break;
 
 			case 'ArrowLeft':
 			case 37:
+			case 'a':
+			case 65:
 				cursor.move(-1);
 				break;
 
 			case 'ArrowRight':
 			case 39:
+			case 'd':
+			case 68:
 				cursor.move(1);
 				break;
 
 			case 'Backspace':
-			case 'Delete':
 			case 8:
+			case 'Delete':
 			case 46:
 				handleKeyButton(0);
 				break;
