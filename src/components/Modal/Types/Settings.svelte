@@ -1,6 +1,5 @@
 <script>
 	import { slide } from 'svelte/transition';
-	import { get } from 'svelte/store';
 	import Switch from '../../Utils/Switch.svelte';
 	import { settings as settingsStore } from '@sudoku/stores/settings';
 	import { GRID_LENGTH } from '@sudoku/constants';

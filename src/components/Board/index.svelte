@@ -1,8 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { timerRunning } from '@sudoku/stores/timer';
-	import { generateSudoku, printSudoku, solveSudoku } from '@sudoku/sudoku';
-	import { encodeSudoku, decodeSencode } from '@sudoku/sencode';
 	import Cell from './Cell.svelte';
 
 	onMount(() => {
