@@ -9,7 +9,7 @@
 	export let hideModal = () => {
 	};
 
-	let settings = { ...get(settingsStore) };
+	let settings = { ...$settingsStore };
 
 	let hintsLimited = settings.hintsLimited;
 
