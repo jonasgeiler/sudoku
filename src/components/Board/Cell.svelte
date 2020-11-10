@@ -16,7 +16,7 @@
 	              !cursor.isAt($cursor, cellX, cellY) &&
 	              cursor.isInArea($cursor, cellX, cellY);
 
-	$: sameNumber = $settings.highlightMatching &&
+	$: sameNumber = $settings.highlightSame &&
 	                !cursor.isAt($cursor, cellX, cellY) &&
 	                !cursor.isInitial($cursor) &&
 	                value &&
