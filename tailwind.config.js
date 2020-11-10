@@ -8,6 +8,8 @@ module.exports = {
         full: '100%'
       },
       colors: {
+        'primary-lighter': '#eff5ff',
+        'primary-light': '#ccdffe',
         primary: '#2979fa',
         'primary-dark': '#256de1',
         'primary-darker': '#2161c8',

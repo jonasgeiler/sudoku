@@ -2,11 +2,14 @@
 	import { slide, fade } from 'svelte/transition';
 	import { DIFFICULTIES } from '@sudoku/constants';
 	import { difficulty } from '@sudoku/stores/difficulty';
+	import { grid, userGrid } from '@sudoku/stores/grid';
 
 	let menuOpened = false;
 
 	function handleDifficulty(difficultyValue) {
 		difficulty.set(difficultyValue);
+		grid.generate(difficultyValue);
+		userGrid.reset();
 		menuOpened = false;
 	}
 </script>

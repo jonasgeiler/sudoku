@@ -1,20 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
-	import Cell from './Cell.svelte';
+	import { grid } from '@sudoku/stores/grid';
 	import { generateSudoku, printSudoku, solveSudoku } from '@sudoku/sudoku';
 	import { encodeSudoku, decodeSencode } from '@sudoku/sencode';
-
-	let field = [
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-	];
+	import Cell from './Cell.svelte';
 
 	onMount(() => {
 	});
@@ -26,17 +15,11 @@
 	</div>
 	<div class="board-padding absolute inset-0 flex justify-center">
 
-		<div class="bg-white shadow-2xl rounded-xl w-full h-full max-w-xl grid">
+		<div class="bg-white shadow-2xl rounded-xl overflow-hidden w-full h-full max-w-xl grid">
 
 			{#each Array(9) as _, row}
 				{#each Array(9) as _, col}
-					<div class="h-full w-full row-start-{row + 1} col-start-{col + 1} row-end-auto col-end-auto"
-					     class:border-r={col + 1 !== 9 && (col + 1) % 3 !== 0}
-					     class:border-r-4={col + 1 !== 9 && (col + 1) % 3 === 0}
-					     class:border-b={row + 1 !== 9 && (row + 1) % 3 !== 0}
-					     class:border-b-4={row + 1 !== 9 && (row + 1) % 3 === 0}>
-						<Cell value={field[row][col]} />
-					</div>
+					<Cell cellY={row + 1} cellX={col + 1} />
 				{/each}
 			{/each}
 
