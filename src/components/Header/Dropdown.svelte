@@ -16,8 +16,8 @@
 		setDropdown(false);
 	}
 
-	function setDropdown(state) {
-		menuOpened = state || !menuOpened;
+	function setDropdown(state = null) {
+		menuOpened = state === null ? !menuOpened : state;
 
 		if (menuOpened) {
 			timer.pause();
