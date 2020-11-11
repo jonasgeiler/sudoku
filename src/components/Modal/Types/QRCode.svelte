@@ -1,11 +1,9 @@
 <script>
-	import { BASE_URL } from '@sudoku/constants';
 	import { modal } from '@sudoku/stores/modal';
 
 	export let data = {};
 
-	const link = BASE_URL + '?' + data.code;
-	const image = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&charset-source=UTF-8&charset-target=UTF-8&ecc=L&color=000&bgcolor=f7f9fc&margin=8&qzone=0&format=png&data=' + encodeURIComponent(link);
+	const image = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&charset-source=UTF-8&charset-target=UTF-8&ecc=L&color=000&bgcolor=f7f9fc&margin=8&qzone=0&format=png&data=' + data.encodedLink;
 
 	function select(element) {
 		element.select();

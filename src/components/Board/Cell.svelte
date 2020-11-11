@@ -2,40 +2,33 @@
 	import { fade } from 'svelte/transition';
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
-	import { grid, userGrid, invalidCells } from '@sudoku/stores/grid';
-	import { settings } from '@sudoku/stores/settings';
 	import { timerRunning } from '@sudoku/stores/timer';
 
+	export let value;
 	export let cellX;
 	export let cellY;
 
-	// 0 when not running or empty
-	$: value = ($timerRunning && (grid.get($grid, cellX, cellY) || grid.get($userGrid, cellX, cellY))) || 0;
+	export let conflictingNumber;
+	export let userNumber;
+	export let selected;
+	export let sameArea;
+	export let sameNumber;
 
-	$: selected = cursor.isAt($cursor, cellX, cellY);
-
-	$: sameArea = $settings.highlightCells &&
-	              !selected &&
-	              cursor.isInArea($cursor, cellX, cellY);
-
-	$: sameNumber = $settings.highlightSame &&
-	                !cursor.isInitial($cursor) &&
-	                !selected &&
-	                value &&
-	                (grid.get($grid, $cursor.x, $cursor.y) || grid.get($userGrid, $cursor.x, $cursor.y)) === value;
-
-	$: conflictingNumber = $settings.highlightConflicting && $invalidCells.includes(cellX + ',' + cellY);
+	const borderRight = (cellX !== SUDOKU_SIZE && cellX % 3 !== 0);
+	const borderRightBold = (cellX !== SUDOKU_SIZE && cellX % 3 === 0);
+	const borderBottom = (cellY !== SUDOKU_SIZE && cellY % 3 !== 0);
+	const borderBottomBold = (cellY !== SUDOKU_SIZE && cellY % 3 === 0);
 </script>
 
 <div class="cell row-start-{cellY} col-start-{cellX}"
-     class:border-r={cellX !== SUDOKU_SIZE && cellX % 3 !== 0}
-     class:border-r-4={cellX !== SUDOKU_SIZE && cellX % 3 === 0}
-     class:border-b={cellY !== SUDOKU_SIZE && cellY % 3 !== 0}
-     class:border-b-4={cellY !== SUDOKU_SIZE && cellY % 3 === 0}>
+     class:border-r={borderRight}
+     class:border-r-4={borderRightBold}
+     class:border-b={borderBottom}
+     class:border-b-4={borderBottomBold}>
 
 	{#if $timerRunning}
 		<div class="cell-inner"
-		     class:user-number={grid.isEmpty($grid, cellX, cellY)}
+		     class:user-number={userNumber}
 		     class:selected={selected}
 		     class:same-area={sameArea}
 		     class:same-number={sameNumber}
@@ -56,7 +49,7 @@
 	}
 
 	.cell-inner {
-		@apply relative h-full w-full transition-colors duration-100 text-gray-800;
+		@apply relative h-full w-full text-gray-800;
 	}
 
 	.cell-btn {
@@ -68,7 +61,7 @@
 	}
 
 	.cell-text {
-		@apply leading-full text-2xl transition-colors duration-100;
+		@apply leading-full text-2xl;
 	}
 
 	@screen sm {

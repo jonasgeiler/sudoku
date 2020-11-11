@@ -1,16 +1,20 @@
 <script>
 	import { BASE_URL } from '@sudoku/constants';
 	import { modal } from '@sudoku/stores/modal';
+	import { grid } from '@sudoku/stores/grid';
 
 	export let data = {};
 	export let hideModal = () => {
 	};
 	export let copyText;
 
-	const link = BASE_URL + '?' + data.code;
-	const facebookLink = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link);
-	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku!%0A&url=' + encodeURIComponent(link);
-	const mailToLink = 'mailto:?subject=A%20Sudoku%20puzzle%20for%20you&body=Here%27s%20a%20link%20to%20a%20Sudoku%20puzzle%20on%20sudoku.skayo.dev%3A%0A%0A' + encodeURIComponent(link);
+	const sencode = grid.getSencode($grid);
+
+	const link = BASE_URL + '?' + sencode;
+	const encodedLink = encodeURIComponent(link);
+	const facebookLink = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedLink;
+	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku!%0A&url=' + encodedLink;
+	const mailToLink = 'mailto:?subject=A%20Sudoku%20puzzle%20for%20you&body=Here%27s%20a%20link%20to%20a%20Sudoku%20puzzle%20on%20sudoku.skayo.dev%3A%0A%0A' + encodedLink;
 
 	function select(element) {
 		element.select();
@@ -29,9 +33,9 @@
 </div>
 
 <div class="code-container">
-	<input class="input code-field" type="text" readonly value="{data.code}" on:click={e => select(e.target)}>
+	<input class="input code-field" type="text" readonly value={sencode} on:click={e => select(e.target)}>
 
-	<button class="btn btn-copy" on:click={copyText(data.code)}>
+	<button class="btn btn-copy" on:click={copyText(sencode)}>
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
 		</svg>
@@ -74,7 +78,7 @@
 		<span>Share by Email</span>
 	</a>
 
-	<button class="btn btn-small" on:click={() => modal.show('qrcode', data)}>
+	<button class="btn btn-small" on:click={() => modal.show('qrcode', { ...data, encodedLink })}>
 		<svg class="icon-outline mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
 		</svg>
