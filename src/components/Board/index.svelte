@@ -47,7 +47,7 @@
 					      userNumber={$grid[y][x] === 0}
 					      sameArea={$settings.highlightCells && !isSelected($cursor, x, y) && isSameArea($cursor, x, y)}
 					      sameNumber={$settings.highlightSame && value && !isSelected($cursor, x, y) && getValueAtCursor($userGrid, $cursor) === value}
-					      conflictingNumber={$settings.highlightConflicting && $invalidCells.includes((x + 1) + ',' + (y + 1))} />
+					      conflictingNumber={$settings.highlightConflicting && $grid[y][x] === 0 && $invalidCells.includes((x + 1) + ',' + (y + 1))} />
 				{/each}
 			{/each}
 
