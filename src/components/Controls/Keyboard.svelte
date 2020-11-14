@@ -57,7 +57,7 @@
 	}
 </script>
 
-<svelte:window on:keyup={handleKey} />
+<svelte:window on:keyup={handleKey} on:beforeunload|preventDefault={e => e.returnValue = ''} />
 
 <div class="keyboard-grid">
 

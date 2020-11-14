@@ -1,7 +1,7 @@
 <script>
 	import { fade, scale } from 'svelte/transition';
 	import { modal, modalData } from '@sudoku/stores/modal';
-	import { MODAL_NONE } from '@sudoku/constants';
+	import { MODAL_NONE, MODAL_DURATION } from '@sudoku/constants';
 	import types from './Types';
 
 	const MODALS_DISABLED_OVERLAY = [];
@@ -17,9 +17,9 @@
 
 {#if $modal !== MODAL_NONE}
 	<div class="modal">
-		<button transition:fade class="modal-overlay" on:click={handleOverlayClick} tabindex="-1"></button>
+		<button transition:fade={{duration: MODAL_DURATION}} class="modal-overlay" on:click={handleOverlayClick} tabindex="-1"></button>
 
-		<div transition:scale class="modal-container">
+		<div transition:scale={{duration: MODAL_DURATION}} class="modal-container">
 			<div class="modal-content">
 				<svelte:component this={types[$modal]} data={$modalData} hideModal={modal.hide} {copyText} />
 			</div>

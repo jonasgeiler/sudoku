@@ -3,22 +3,6 @@
 	import Dropdown from './Dropdown.svelte';
 </script>
 
-<!--
-
-Right:
-- Menu Button
-  - Easy
-  - Medium
-  - Hard
-  -----
-  - Create Own
-  - Enter Code
-- Difficulty Text (Easy|Medium|Hard|Custom)
-- Share Button
-- Fullscreen Button
-- Settings Button
--->
-
 <div class="px-4 py-4 flex justify-center text-white">
 	<div class="w-full max-w-xl">
 

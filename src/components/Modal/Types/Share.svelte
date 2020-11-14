@@ -10,7 +10,7 @@
 
 	const sencode = grid.getSencode($grid);
 
-	const link = BASE_URL + '?' + sencode;
+	const link = BASE_URL + '#' + sencode;
 	const encodedLink = encodeURIComponent(link);
 	const facebookLink = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedLink;
 	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku!%0A&url=' + encodedLink;

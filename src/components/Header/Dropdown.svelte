@@ -1,45 +1,70 @@
 <script>
-	import { cursor } from '@sudoku/stores/cursor';
-	import { timer } from '@sudoku/stores/timer';
+	import game from '@sudoku/game';
+	import { modal } from '@sudoku/stores/modal';
 	import { slide, fade } from 'svelte/transition';
-	import { DIFFICULTIES } from '@sudoku/constants';
+	import { DIFFICULTIES, SENCODE_REGEX, DROPDOWN_DURATION, DIFFICULTY_CUSTOM } from '@sudoku/constants';
 	import { difficulty } from '@sudoku/stores/difficulty';
-	import { grid } from '@sudoku/stores/grid';
 
-	let menuOpened = false;
+	let dropdownVisible = false;
 
 	function handleDifficulty(difficultyValue) {
-		difficulty.set(difficultyValue);
-		grid.generate(difficultyValue);
-		cursor.reset();
+		dropdownVisible = false;
+		game.pause();
 
-		setDropdown(false);
+		modal.show('confirm', {
+			title: 'New Game',
+			text: 'Start new game with difficulty "' + DIFFICULTIES[difficultyValue] + '"?',
+			button: 'Continue',
+			onHide: game.resume,
+			callback: () => {
+				game.startNew(difficultyValue);
+			},
+		});
 	}
 
-	function setDropdown(state = null) {
-		menuOpened = state === null ? !menuOpened : state;
+	function handleEnterCode() {
+		dropdownVisible = false;
+		game.pause();
 
-		if (menuOpened) {
-			timer.pause();
-		} else {
-			setTimeout(() => timer.start(), 100);
-		}
+		modal.show('prompt', {
+			title: 'Enter Code',
+			text: 'Please enter the code of the sudoku you want to play:',
+			fontMono: true,
+			button: 'Start',
+			onHide: game.resume,
+			callback: (value) => {
+				game.startCustom(value);
+			},
+			validate: (value) => {
+				return (value.trim().length !== 0 && SENCODE_REGEX.test(value));
+			}
+		});
+	}
+
+	function showDropdown() {
+		dropdownVisible = true;
+		game.pause();
+	}
+
+	function hideDropdown() {
+		dropdownVisible = false;
+		game.resume();
 	}
 </script>
 
 <div class="dropdown">
-	<button class="dropdown-button" on:click={() => setDropdown()} title="{menuOpened ? 'Close' : 'Open'} Menu">
+	<button class="dropdown-button" on:click={dropdownVisible ? hideDropdown : showDropdown} title="{dropdownVisible ? 'Close' : 'Open'} Menu">
 		<svg class="icon-outline mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h12" />
 		</svg>
 
-		<span class="text-2xl tracking-wider">{DIFFICULTIES[$difficulty]}</span>
+		<span class="text-2xl tracking-wider">{$difficulty === DIFFICULTY_CUSTOM ? 'Custom' : DIFFICULTIES[$difficulty]}</span>
 	</button>
 
-	{#if menuOpened}
-		<button transition:fade class="dropdown-overlay" on:click={() => setDropdown(false)} tabindex="-1"></button>
+	{#if dropdownVisible}
+		<button transition:fade={{duration: DROPDOWN_DURATION}} class="dropdown-overlay" on:click={hideDropdown} tabindex="-1"></button>
 
-		<div transition:slide class="dropdown-menu">
+		<div transition:slide={{duration: DROPDOWN_DURATION}} class="dropdown-menu">
 			{#each Object.entries(DIFFICULTIES) as [difficultyValue, difficultyLabel]}
 				<a class="dropdown-item" on:click|preventDefault={() => handleDifficulty(difficultyValue)} href="/difficulty-{difficultyValue}" title="Set difficulty to {difficultyLabel}">
 					<svg class="icon-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -59,7 +84,7 @@
 
 				<span class="align-middle">Create Own</span>
 			</a>
-			<a class="dropdown-item" on:click|preventDefault={() => {}} href="/enter-code" title="Enter a Sudoku Code from a Friend">
+			<a class="dropdown-item" on:click|preventDefault={handleEnterCode} href="/enter-code" title="Enter a Sudoku Code from a Friend">
 				<svg class="icon-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
 					<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
 					<path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />

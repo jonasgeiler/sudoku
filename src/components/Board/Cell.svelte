@@ -2,12 +2,12 @@
 	import { fade } from 'svelte/transition';
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
-	import { timerRunning } from '@sudoku/stores/timer';
 
 	export let value;
 	export let cellX;
 	export let cellY;
 
+	export let disabled;
 	export let conflictingNumber;
 	export let userNumber;
 	export let selected;
@@ -26,7 +26,7 @@
      class:border-b={borderBottom}
      class:border-b-4={borderBottomBold}>
 
-	{#if $timerRunning}
+	{#if !disabled}
 		<div class="cell-inner"
 		     class:user-number={userNumber}
 		     class:selected={selected}

@@ -1,15 +1,15 @@
 <script>
 	import { modal } from '@sudoku/stores/modal';
-	import { timer } from '@sudoku/stores/timer';
+	import { pauseGame, resumeGame } from '@sudoku/game';
 
 	function handleShareButton() {
-		timer.pause();
-		modal.show('share', { startTimerOnHide: true });
+		pauseGame();
+		modal.show('share', { onHide: resumeGame });
 	}
 
 	function handleSettingsButton() {
-		timer.pause();
-		modal.show('settings', { startTimerOnHide: true });
+		pauseGame();
+		modal.show('settings', { onHide: resumeGame });
 	}
 </script>
 
