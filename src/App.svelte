@@ -11,6 +11,7 @@
 
 	let copyText;
 
+	// TODO: Show starting modal
 	onMount(() => {
 		let hash = location.hash;
 

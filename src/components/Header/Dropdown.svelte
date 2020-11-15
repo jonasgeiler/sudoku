@@ -35,9 +35,7 @@
 			callback: (value) => {
 				game.startCustom(value);
 			},
-			validate: (value) => {
-				return (value.trim().length !== 0 && SENCODE_REGEX.test(value));
-			}
+			validate: (value) => value.trim().length !== 0 && SENCODE_REGEX.test(value)
 		});
 	}
 
