@@ -1,5 +1,5 @@
 <script>
-	import { timerStr } from '@sudoku/stores/timer';
+	import { timer } from '@sudoku/stores/timer';
 	import { pauseGame, resumeGame } from '@sudoku/game';
 	import { gamePaused } from '@sudoku/stores/game';
 	import { settings } from '@sudoku/stores/settings';
@@ -17,7 +17,7 @@
 	</button>
 
 	{#if $settings.displayTimer}
-		<span class="timer-text" title="Time">{$timerStr}</span>
+		<span class="timer-text" title="Time">{$timer}</span>
 	{/if}
 </div>
 
