@@ -48,7 +48,7 @@
 
 	function hideDropdown() {
 		dropdownVisible = false;
-		game.resume();
+		setTimeout(game.resume, DROPDOWN_DURATION);
 	}
 </script>
 
