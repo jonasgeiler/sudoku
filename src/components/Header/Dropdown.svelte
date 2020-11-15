@@ -1,8 +1,9 @@
 <script>
 	import game from '@sudoku/game';
+	import { validateSencode } from '@sudoku/sencode';
 	import { modal } from '@sudoku/stores/modal';
 	import { slide, fade } from 'svelte/transition';
-	import { DIFFICULTIES, SENCODE_REGEX, DROPDOWN_DURATION, DIFFICULTY_CUSTOM } from '@sudoku/constants';
+	import { DIFFICULTIES, DROPDOWN_DURATION, DIFFICULTY_CUSTOM } from '@sudoku/constants';
 	import { difficulty } from '@sudoku/stores/difficulty';
 
 	let dropdownVisible = false;
@@ -35,7 +36,7 @@
 			callback: (value) => {
 				game.startCustom(value);
 			},
-			validate: (value) => value.trim().length !== 0 && SENCODE_REGEX.test(value)
+			validate: validateSencode
 		});
 	}
 

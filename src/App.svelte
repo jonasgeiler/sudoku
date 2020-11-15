@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
+	import { validateSencode } from '@sudoku/sencode';
 	import game from '@sudoku/game';
+	import { modal } from '@sudoku/stores/modal';
 	import { SENCODE_REGEX } from '@sudoku/constants';
-	import { difficulty } from '@sudoku/stores/difficulty';
 	import Clipboard from './components/Utils/Clipboard.svelte';
 	import Board from './components/Board/index.svelte';
 	import Controls from './components/Controls/index.svelte';
@@ -19,13 +20,13 @@
 			hash = hash.slice(1);
 		}
 
-		if (hash.trim().length !== 0 && SENCODE_REGEX.test(hash)) {
+		if (validateSencode(hash)) {
+			// TODO: Show modal to confirm starting custom game (maybe reuse welcome modal)
 			game.startCustom(hash);
+			game.resume();
 		} else {
-			game.startNew($difficulty);
+			modal.show('welcome', { onHide: game.resume });
 		}
-
-		game.resume();
 	});
 </script>
 
