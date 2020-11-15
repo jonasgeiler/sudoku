@@ -25,10 +25,10 @@
 
 <h1 class="text-3xl font-semibold mb-6 leading-none">Welcome!</h1>
 
-<p class="text-lg mb-4">To start a game, choose a difficulty:</p>
+<label for="difficulty" class="text-lg mb-4">To start a game, choose a difficulty:</label>
 
 <div class="inline-block relative mb-6">
-	<select class="btn btn-small w-full appearance-none leading-normal" bind:value={difficulty}>
+	<select id="difficulty" class="btn btn-small w-full appearance-none leading-normal" bind:value={difficulty}>
 		{#each Object.entries(DIFFICULTIES) as [difficultyValue, difficultyLabel]}
 			<option value={difficultyValue}>{difficultyLabel}</option>
 		{/each}
@@ -40,9 +40,9 @@
 	</div>
 </div>
 
-<p class="text-lg mb-4">Or, if you have a code for a custom Sudoku, enter it here:</p>
+<label for="sencode" class="text-lg mb-4">Or, if you have a code for a custom sudoku, enter it here:</label>
 
-<input class="input font-mono mb-5" bind:value={sencode} type="text">
+<input id="sencode" class="input font-mono mb-5" bind:value={sencode} type="text">
 
 <div class="flex justify-end">
 	<button class="btn btn-small btn-primary" disabled={buttonDisabled} on:click={handleStart}>Start</button>
