@@ -27,7 +27,7 @@
 <h1 class="text-3xl font-semibold mb-6 leading-none">Welcome!</h1>
 
 {#if data.sencode}
-	<div class="p-3 text-lg bg-primary bg-opacity-25 border-l-8 border-primary border-opacity-75 mb-4">
+	<div class="p-3 text-lg rounded bg-primary bg-opacity-25 border-l-8 border-primary border-opacity-75 mb-4">
 		Someone shared a sudoku with you!<br>Just click start if you want to play it
 	</div>
 {/if}
