@@ -12,7 +12,6 @@
 
 	let copyText;
 
-	// TODO: Show starting modal
 	onMount(() => {
 		let hash = location.hash;
 
@@ -20,13 +19,12 @@
 			hash = hash.slice(1);
 		}
 
+		let sencode;
 		if (validateSencode(hash)) {
-			// TODO: Show modal to confirm starting custom game (maybe reuse welcome modal)
-			game.startCustom(hash);
-			game.resume();
-		} else {
-			modal.show('welcome', { onHide: game.resume });
+			sencode = hash;
 		}
+
+		modal.show('welcome', { onHide: game.resume, sencode });
 	});
 </script>
 
