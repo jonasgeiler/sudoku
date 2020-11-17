@@ -8,26 +8,23 @@
 	import Cell from './Cell.svelte';
 
 	function isSelected(cursorStore, x, y) {
-		return cursorStore.x === x + 1 && cursorStore.y === y + 1;
+		return cursorStore.x === x && cursorStore.y === y;
 	}
 
 	function isSameArea(cursorStore, x, y) {
-		const cursorX = cursorStore.x - 1;
-		const cursorY = cursorStore.y - 1;
+		if (cursorStore.x === x || cursorStore.y === y) return true;
 
-		if (cursorX === x || cursorY === y) return true;
-
-		const cursorBoxX = Math.floor(cursorX / BOX_SIZE);
-		const cursorBoxY = Math.floor(cursorY / BOX_SIZE);
+		const cursorBoxX = Math.floor(cursorStore.x / BOX_SIZE);
+		const cursorBoxY = Math.floor(cursorStore.y / BOX_SIZE);
 		const cellBoxX = Math.floor(x / BOX_SIZE);
 		const cellBoxY = Math.floor(y / BOX_SIZE);
 		return (cursorBoxX === cellBoxX && cursorBoxY === cellBoxY);
 	}
 
 	function getValueAtCursor(gridStore, cursorStore) {
-		if (cursorStore.x === 0 && cursorStore.y === 0) return null;
+		if (cursorStore.x === null && cursorStore.y === null) return null;
 
-		return gridStore[cursorStore.y - 1][cursorStore.x - 1];
+		return gridStore[cursorStore.y][cursorStore.x];
 	}
 </script>
 
@@ -44,7 +41,7 @@
 					<Cell {value}
 					      cellY={y + 1}
 					      cellX={x + 1}
-					      candidates={$candidates[(x + 1) + ',' + (y + 1)]}
+					      candidates={$candidates[x + ',' + y]}
 					      disabled={$gamePaused}
 					      selected={isSelected($cursor, x, y)}
 					      userNumber={$grid[y][x] === 0}

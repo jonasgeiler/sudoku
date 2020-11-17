@@ -36,7 +36,7 @@
 		     class:same-number={sameNumber}
 		     class:conflicting-number={conflictingNumber}>
 
-			<button class="cell-btn" on:click={cursor.set(cellX, cellY)}>
+			<button class="cell-btn" on:click={cursor.set(cellX - 1, cellY - 1)}>
 				{#if candidates}
 					<Candidates {candidates} />
 				{:else}
