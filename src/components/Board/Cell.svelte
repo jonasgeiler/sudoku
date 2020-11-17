@@ -61,12 +61,36 @@
 	}
 
 	.cell-text {
-		@apply leading-full text-2xl;
+		@apply leading-full text-base;
 	}
 
-	@screen sm {
+	@media (min-width: 300px) {
+		.cell-text {
+			@apply text-lg;
+		}
+	}
+
+	@media (min-width: 350px) {
+		.cell-text {
+			@apply text-xl;
+		}
+	}
+
+	@media (min-width: 400px) {
+		.cell-text {
+			@apply text-2xl;
+		}
+	}
+
+	@media (min-width: 500px) {
 		.cell-text {
 			@apply text-3xl;
+		}
+	}
+
+	@media (min-width: 600px) {
+		.cell-text {
+			@apply text-4xl;
 		}
 	}
 
