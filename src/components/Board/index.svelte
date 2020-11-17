@@ -12,7 +12,7 @@
 	}
 
 	function isSameArea(cursorStore, x, y) {
-		if (cursorStore.x === null && cursorStore.y === null) return true;
+		if (cursorStore.x === null && cursorStore.y === null) return false;
 		if (cursorStore.x === x || cursorStore.y === y) return true;
 
 		const cursorBoxX = Math.floor(cursorStore.x / BOX_SIZE);
