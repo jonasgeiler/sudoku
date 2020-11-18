@@ -13,10 +13,10 @@
 <h1 class="text-3xl font-semibold mb-5 leading-none">{data.title || 'Please enter something'}</h1>
 
 {#if data.text}
-	<p class="text-lg mb-4">{data.text}</p>
+	<label for="prompt-input" class="text-lg mb-4">{data.text}</label>
 {/if}
 
-<input class="input mb-5" class:font-mono={data.fontMono} bind:value type="text">
+<input class="input mb-5" id="prompt-input" name="prompt-input" class:font-mono={data.fontMono} bind:value type="text">
 
 <div class="flex justify-end">
 	<button class="btn btn-small mr-3" on:click={hideModal}>Cancel</button>

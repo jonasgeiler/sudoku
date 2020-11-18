@@ -41,7 +41,7 @@
 	<Switch bind:checked={hintsLimited} text="Limit the number of hints available" id="hints-limited" />
 	{#if hintsLimited}
 		<div transition:slide class="inline-flex items-center">
-			<label class="flex-grow text-lg">Number of available hints</label>
+			<label for="hints" class="flex-grow text-lg">Number of available hints</label>
 
 			<input bind:value={settings.hints} class="number-input" id="hints" name="hints" type="number" min="0" max="81" />
 		</div>
