@@ -79,7 +79,7 @@
 	</div>
 </div>
 
-<button class="btn btn-small w-full mb-2" on:click={handleShare}>Share this Sudoku</button>
+<button class="btn btn-small w-full mb-2" on:click={handleShare}>Share this Sudoku puzzle</button>
 <button class="btn btn-small btn-primary w-full" on:click={handleNewGame}>New Game</button>
 
 <style>

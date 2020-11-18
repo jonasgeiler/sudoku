@@ -27,7 +27,7 @@
 
 {#if data.sencode}
 	<div class="p-3 text-lg rounded bg-primary bg-opacity-25 border-l-8 border-primary border-opacity-75 mb-4">
-		Someone shared a sudoku with you!<br>Just click start if you want to play it
+		Someone shared a Sudoku puzzle with you!<br>Just click start if you want to play it
 	</div>
 {/if}
 
@@ -47,7 +47,7 @@
 	</div>
 </div>
 
-<label for="sencode" class="text-lg mb-3">Or, if you have a code for a custom sudoku, enter it here:</label>
+<label for="sencode" class="text-lg mb-3">Or, if you have a code for a custom Sudoku puzzle, enter it here:</label>
 
 <input id="sencode" class="input font-mono mb-5" bind:value={sencode} type="text">
 
