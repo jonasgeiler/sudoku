@@ -5,8 +5,7 @@
 	import { DIFFICULTIES } from '@sudoku/constants';
 
 	export let data = {};
-	export let hideModal = () => {
-	};
+	export let hideModal;
 
 	let difficulty = $difficultyStore;
 	let sencode = data.sencode || '';

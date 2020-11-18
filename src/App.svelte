@@ -3,14 +3,18 @@
 	import { validateSencode } from '@sudoku/sencode';
 	import game from '@sudoku/game';
 	import { modal } from '@sudoku/stores/modal';
-	import { SENCODE_REGEX } from '@sudoku/constants';
-	import Clipboard from './components/Utils/Clipboard.svelte';
+	import { gameWon } from '@sudoku/stores/game';
 	import Board from './components/Board/index.svelte';
 	import Controls from './components/Controls/index.svelte';
 	import Header from './components/Header/index.svelte';
 	import Modal from './components/Modal/index.svelte';
 
-	let copyText;
+	gameWon.subscribe(won => {
+		if (won) {
+			game.pause();
+			modal.show('gameover');
+		}
+	});
 
 	onMount(() => {
 		let hash = location.hash;
@@ -43,8 +47,7 @@
 	<Controls />
 </footer>
 
-<Modal {copyText} />
-<Clipboard bind:copyText />
+<Modal />
 
 <style global>
 	@import "./styles/global.css";

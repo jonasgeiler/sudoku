@@ -1,7 +1,6 @@
 <script>
 	export let data = {};
-	export let hideModal = () => {
-	};
+	export let hideModal;
 
 	let value = '';
 

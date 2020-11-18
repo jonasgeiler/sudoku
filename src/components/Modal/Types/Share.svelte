@@ -2,19 +2,20 @@
 	import { BASE_URL } from '@sudoku/constants';
 	import { modal } from '@sudoku/stores/modal';
 	import { grid } from '@sudoku/stores/grid';
+	import Clipboard from '../../Utils/Clipboard.svelte';
 
 	export let data = {};
-	export let hideModal = () => {
-	};
-	export let copyText;
+	export let hideModal;
 
 	const sencode = grid.getSencode($grid);
 
 	const link = BASE_URL + '#' + sencode;
 	const encodedLink = encodeURIComponent(link);
 	const facebookLink = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedLink;
-	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku!%0A&url=' + encodedLink;
+	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku!&url=' + encodedLink;
 	const mailToLink = 'mailto:?subject=A%20Sudoku%20puzzle%20for%20you&body=Here%27s%20a%20link%20to%20a%20Sudoku%20puzzle%20on%20sudoku.skayo.dev%3A%0A%0A' + encodedLink;
+
+	let copyText;
 
 	function select(element) {
 		element.select();
@@ -86,6 +87,8 @@
 		<span>Share QR Code</span>
 	</button>
 </div>
+
+<Clipboard bind:copyText />
 
 <style>
 	.code-container {
