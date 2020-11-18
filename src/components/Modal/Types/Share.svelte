@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import { BASE_URL } from '@sudoku/constants';
 	import { modal } from '@sudoku/stores/modal';
 	import { grid } from '@sudoku/stores/grid';
@@ -21,6 +22,27 @@
 		element.select();
 		element.setSelectionRange(0, element.value.length);
 	}
+
+	onMount(() => {
+		let canShare = false;
+		const shareData = {
+			url: link,
+			title: 'Sudoku, by Skayo',
+			text: 'Create & Play Sudoku puzzles for free online on sudoku.skayo.dev!'
+		};
+
+		if ('share' in navigator) {
+			canShare = true;
+		}
+
+		if ('canShare' in navigator) {
+			canShare = navigator.canShare(shareData);
+		}
+
+		if (canShare) {
+			navigator.share(shareData);
+		}
+	});
 </script>
 
 <div class="flex justify-between items-center mb-6">
