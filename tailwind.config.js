@@ -33,7 +33,8 @@ module.exports = {
   purge:    {
     content: ['./src/**/*.svelte', './src/**/*.html'],
     options: {
-      whitelistPatterns: [/^(row|col)-start-/, /svelte-/],
+      safelist: [/svelte-/],
+
       defaultExtractor: (content) => {
         const regExp = new RegExp(/[A-Za-z0-9-_:/]+/g);
         const matchedTokens = [];

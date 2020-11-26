@@ -3,6 +3,5 @@
 
 .DS_Store
 .idea
-.index.css
 tailwind-full.config.js
 pnpm-lock.yaml
