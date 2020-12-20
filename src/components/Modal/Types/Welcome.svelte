@@ -10,7 +10,8 @@
 	let difficulty = $difficultyStore;
 	let sencode = data.sencode || '';
 
-	$: buttonDisabled = sencode.trim().length !== 0 ? !validateSencode(sencode) : !DIFFICULTIES.hasOwnProperty(difficulty);
+	$: enteredSencode = sencode.trim().length !== 0;
+	$: buttonDisabled = enteredSencode ? !validateSencode(sencode) : !DIFFICULTIES.hasOwnProperty(difficulty);
 
 	function handleStart() {
 		if (validateSencode(sencode)) {
@@ -34,7 +35,7 @@
 <label for="difficulty" class="text-lg mb-3">To start a game, choose a difficulty:</label>
 
 <div class="inline-block relative mb-6">
-	<select id="difficulty" class="btn btn-small w-full appearance-none leading-normal" bind:value={difficulty}>
+	<select id="difficulty" class="btn btn-small w-full appearance-none leading-normal" bind:value={difficulty} disabled={enteredSencode}>
 		{#each Object.entries(DIFFICULTIES) as [difficultyValue, difficultyLabel]}
 			<option value={difficultyValue}>{difficultyLabel}</option>
 		{/each}

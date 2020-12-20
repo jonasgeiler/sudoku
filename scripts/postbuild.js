@@ -43,12 +43,7 @@ fs.readFile('./src/template.html', (err, templateHtml) => {
 			const hashedBundleName = reaver.rev('bundle.js', bundleJs);
 
 			// Replace bundle.js filename in HTML
-			let outputHtml;
-			if (Buffer.isBuffer(inlinedHtml)) {
-				outputHtml = replaceInBuffer(inlinedHtml, 'bundle.js', hashedBundleName);
-			} else {
-				outputHtml = inlinedHtml.replace('bundle.js', hashedBundleName);
-			}
+			const outputHtml = replaceInBuffer(inlinedHtml, 'bundle.js', hashedBundleName);
 
 			// Write final HTML into index.html
 			fs.writeFile('./dist/index.html', outputHtml, throwIfError);
