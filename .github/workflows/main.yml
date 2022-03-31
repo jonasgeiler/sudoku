@@ -29,6 +29,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
-          GIT_CONFIG_NAME: SkayoBot
-          GIT_CONFIG_EMAIL: frederike.gnampf@gmail.com
+          GIT_CONFIG_NAME: skayobot
+          GIT_CONFIG_EMAIL: bot@skayo.dev
           CLEAN: true
