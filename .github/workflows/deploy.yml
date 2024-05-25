@@ -1,11 +1,18 @@
-name: Build and Deploy
+name: Deploy
+
 on:
   push:
     branches:
       - master
+
+permissions:
+  contents: write
+
 jobs:
-  build-and-deploy:
+  build-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
@@ -21,14 +28,12 @@ jobs:
       - name: Build 🏗
         run: npm run build
 
-      - run: echo sudoku.skayo.dev > dist/CNAME
+       - name: CNAME 🧾
+        run: echo sudoku.jonasgeiler.com > dist/CNAME
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist
-          GIT_CONFIG_NAME: skayobot
-          GIT_CONFIG_EMAIL: bot@skayo.dev
-          CLEAN: true
+          folder: dist
+          git-config-name: github-actions[bot]
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com

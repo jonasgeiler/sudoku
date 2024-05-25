@@ -14,7 +14,7 @@
 	const encodedLink = encodeURIComponent(link);
 	const facebookLink = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedLink;
 	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku%20puzzle!&url=' + encodedLink;
-	const mailToLink = 'mailto:?subject=A%20Sudoku%20puzzle%20for%20you&body=Here%27s%20a%20link%20to%20a%20Sudoku%20puzzle%20on%20sudoku.skayo.dev%3A%0A%0A' + encodedLink;
+	const mailToLink = 'mailto:?subject=A%20Sudoku%20puzzle%20for%20you&body=Here%27s%20a%20link%20to%20a%20Sudoku%20puzzle%20on%20sudoku.jonasgeiler.com%3A%0A%0A' + encodedLink;
 
 	let copyText;
 
@@ -27,8 +27,8 @@
 		let canShare = false;
 		const shareData = {
 			url: link,
-			title: 'Sudoku, by Skayo',
-			text: 'Create & Play Sudoku puzzles for free online on sudoku.skayo.dev!'
+			title: 'Sudoku',
+			text: 'Create & play Sudoku puzzles for free online on sudoku.jonasgeiler.com!'
 		};
 
 		if ('share' in navigator) {
