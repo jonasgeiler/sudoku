@@ -28,7 +28,7 @@ jobs:
       - name: Build 🏗
         run: npm run build
 
-       - name: CNAME 🧾
+      - name: CNAME 🧾
         run: echo sudoku.jonasgeiler.com > dist/CNAME
 
       - name: Deploy 🚀
