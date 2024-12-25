@@ -22,6 +22,11 @@
 </script>
 
 <div class="action-buttons space-x-3">
+	<button class="btn btn-round" disabled={$gamePaused} title="Backtrack">
+		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5 a4 4 3 0 15 15M12 20 l0 -5M15 23 l-3 -2 " />
+		</svg>
+	</button>
 
 	<button class="btn btn-round" disabled={$gamePaused} title="Undo">
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
