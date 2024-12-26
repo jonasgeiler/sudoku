@@ -35,6 +35,7 @@
 			sencode = hash;
 		}
 
+
 		modal.show('welcome', { onHide: game.resume, sencode });
 	});
 </script>
