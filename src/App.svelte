@@ -20,6 +20,9 @@
 		}
 	});
 
+	// 执行一些初始化逻辑——这些初始逻辑是用来加载分享链接的。
+	// eg：https://sudoku.jonasgeiler.com/#o6DZ2hbDBoCZT-3pwX9CkdOTG69r
+	// 项目执行入口点
 	onMount(() => {
 		let hash = location.hash;
 
