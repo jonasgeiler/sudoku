@@ -19,6 +19,8 @@
 	onMount(() => {
 		let hash = location.hash;
 
+		console.log(hash);
+
 		if (hash.startsWith('#')) {
 			hash = hash.slice(1);
 		}
