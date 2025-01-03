@@ -5,7 +5,9 @@
 	import { settings } from '@sudoku/stores/settings';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { candidates } from '@sudoku/stores/candidates';
+	import { strategy } from '@sudoku/stores/grid';
 	import Cell from './Cell.svelte';
+	import { showHints } from '@sudoku/stores/hints'
 
 	function isSelected(cursorStore, x, y) {
 		return cursorStore.x === x && cursorStore.y === y;
@@ -42,7 +44,8 @@
 					<Cell {value}
 					      cellY={y + 1}
 					      cellX={x + 1}
-					      candidates={$candidates[x + ',' + y]}
+						  candidates={$showHints === 1 ? $candidates[x + ',' + y] : 0}
+						  hint={ $showHints === 1 ? $strategy["SimpleStrategy"]?.find(h => h.x === x && h.y === y)?.candidates : 0}
 					      disabled={$gamePaused}
 					      selected={isSelected($cursor, x, y)}
 					      userNumber={$grid[y][x] === 0}
