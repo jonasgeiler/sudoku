@@ -16,7 +16,7 @@
 
 <style>
 	.candidate-grid {
-		@apply grid h-full w-full p-1;
+		@apply bg-yellow-200 grid h-full w-full p-1;
 	}
 
 	.candidate {
