@@ -4,7 +4,7 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
-	import { commandStack, ResetCommand, copyCandidates, copyUserGrid } from './ActionBar/Resetstack'
+	import { StackManager, SetValueCommand, ResetCommand, SetNoteCommand, copyUserGrid, copyCandidates } from './ActionBar/Resetstack'
 
     export let number;
     $: disabled = false;//!($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) && $candidates[$cursor.x + ',' + $cursor.y].includes(number));
@@ -13,6 +13,7 @@
 
 		if (!$keyboardDisabled) {
 			if ($notes) {
+				StackManager.pushCmd(new SetNoteCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
 				if (num === 0) {
 					candidates.clear($cursor);
 				} else {
@@ -22,7 +23,10 @@
 			} else {
 				// 多候选值输入，启用回溯功能
 				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) && $candidates[$cursor.x + ',' + $cursor.y].length > 1) {
-					$commandStack.push(new ResetCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
+					StackManager.pushCmd(new ResetCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
+				}
+				else {
+					StackManager.pushCmd(new SetValueCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
 				}
 
 				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {

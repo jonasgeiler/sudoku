@@ -7,6 +7,7 @@
 	import { settings } from '@sudoku/stores/settings';
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
 	import { gamePaused } from '@sudoku/stores/game';
+	import { StackManager } from './Resetstack'
 
 	$: hintsAvailable = $hints > 0;
 
@@ -19,17 +20,36 @@
 			userGrid.applyHint($cursor);
 		}
 	}
+	function handleUndo() {
+		console.log("handleUndo");
+		StackManager.undo();
+	}
+	function handleRedo() {
+		console.log("handleRedo");
+		StackManager.redo();
+	}
+	function handleReset() {
+		console.log("handleReset");
+		while (["ResetCommand", ""].indexOf(StackManager.undo()) === -1) {}
+	}
 </script>
 
 <div class="action-buttons space-x-3">
 
-	<button class="btn btn-round" disabled={$gamePaused} title="Undo">
+	<button class="btn btn-round" disabled={$gamePaused} title="Reset" on:click={handleReset}>
+<!--		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+		</svg>
+-->
+	</button>
+
+	<button class="btn btn-round" disabled={$gamePaused} title="Undo" on:click={handleUndo}>
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
 		</svg>
 	</button>
 
-	<button class="btn btn-round" disabled={$gamePaused} title="Redo">
+	<button class="btn btn-round" disabled={$gamePaused} title="Redo" on:click={handleRedo}>
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 90 00-8 8v2M21 10l-6 6m6-6l-6-6" />
 		</svg>
