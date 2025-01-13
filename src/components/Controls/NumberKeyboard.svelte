@@ -4,39 +4,67 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
+	import { modal } from '@sudoku/stores/modal';
+	import { strategyManager } from '@sudoku/sudokuStrategies/StrategyManager';
 	import { StackManager, SetValueCommand, ResetCommand, SetNoteCommand, copyUserGrid, copyCandidates } from './ActionBar/Resetstack'
 
     export let number;
-    $: disabled = false;//!($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) && $candidates[$cursor.x + ',' + $cursor.y].includes(number));
+    $: disabled = false;
 
-	function handleKeyButton(num) {
+    function hasSolution(grid) {
+        let candidatesList = strategyManager.applyStrategies(grid);
+        for(let row = 0; row < 9; row++) {
+            for(let col = 0; col < 9; col++) {
+                if(grid[row][col] === 0 && candidatesList[row][col].length === 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-		if (!$keyboardDisabled) {
-			if ($notes) {
-				StackManager.pushCmd(new SetNoteCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
-				if (num === 0) {
-					candidates.clear($cursor);
-				} else {
-					candidates.add($cursor, num);
-				}
-				userGrid.set($cursor, 0);
-			} else {
-				// 多候选值输入，启用回溯功能
-				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) && $candidates[$cursor.x + ',' + $cursor.y].length > 1) {
-					StackManager.pushCmd(new ResetCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
-				}
-				else {
-					StackManager.pushCmd(new SetValueCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
-				}
+    function handleKeyButton(num) {
+        if (!$keyboardDisabled) {
+            if ($notes) {
+                StackManager.pushCmd(new SetNoteCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
+                if (num === 0) {
+                    candidates.clear($cursor);
+                } else {
+                    candidates.add($cursor, num);
+                }
+                userGrid.set($cursor, 0);
+            } else {
+                let isValidInput = !$candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) || 
+                                 $candidates[$cursor.x + ',' + $cursor.y].includes(num);
+                
+                if (!isValidInput) {
+                    return;
+                }
 
-				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
-					candidates.clear($cursor);
-				}
+                if (StackManager.hasResetPoint()) {
+                    let tempGrid = copyUserGrid($userGrid);
+                    tempGrid[$cursor.y][$cursor.x] = num;
+                    if (!hasSolution(tempGrid)) {
+                        modal.show('nosolution');
+                        return;
+                    }
+                }
 
-				userGrid.set($cursor, num);
-			}
-		}
-	}
+                if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) && $candidates[$cursor.x + ',' + $cursor.y].length > 1) {
+                    StackManager.pushCmd(new ResetCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
+                }
+                else {
+                    StackManager.pushCmd(new SetValueCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
+                }
+
+                if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
+                    candidates.clear($cursor);
+                }
+
+                userGrid.set($cursor, num);
+            }
+        }
+    }
 
 </script>
 

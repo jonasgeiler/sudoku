@@ -96,6 +96,15 @@ function createStackManager() {
             console.log("redo done");
             return res;
         },
+
+        hasResetPoint() {
+            // 检查栈中是否有ResetCommand
+            let hasReset = false;
+            undostack.subscribe(stack => {
+                hasReset = stack.some(cmd => cmd.name === "ResetCommand");
+            });
+            return hasReset;
+        }
     }
 }
 export const StackManager = createStackManager();
