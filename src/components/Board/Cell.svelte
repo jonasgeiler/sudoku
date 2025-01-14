@@ -6,6 +6,7 @@
 	import { userGrid } from '@sudoku/stores/grid';
 	import { kStore } from '@sudoku/stores/simpleStrategy'
 	import { candidates as Candidate } from '@sudoku/stores/candidates';
+	import { stateManager } from '@sudoku/stores/stateManager';
 
 	export let value;
 	export let cellX;
@@ -33,8 +34,14 @@
 			const value = hint[0]; // 提取数组中的唯一值
 			userGrid.sethint(cellX - 1, cellY - 1, value);
 			Candidate.syncWithStrategy();
+
+			stateManager.add_state(userGrid.get());
+			console.log('hint input');
+			console.log(userGrid.get());
+			console.log(stateManager.get_state_dict());
 		}
 		cursor.set(cellX - 1, cellY - 1);
+
 	}
 </script>
 

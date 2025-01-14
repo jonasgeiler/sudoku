@@ -3,6 +3,7 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
+	import { stateManager } from '@sudoku/stores/stateManager'
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
@@ -22,6 +23,10 @@
 				}
 
 				userGrid.set($cursor, num);
+				stateManager.add_state(userGrid.get());	// 添加状态
+				console.log('keyboard input');
+				console.log(userGrid.get());
+				console.log(stateManager.get_state_dict());
 			}
 		}
 	}
