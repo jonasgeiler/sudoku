@@ -10,6 +10,7 @@
 	import { StackManager } from './Resetstack'
 
 	import { strategyManager } from '@sudoku/sudokuStrategies/StrategyManager'
+    import { ResetTree } from '@sudoku/Resettree';
 
 	$: hintsAvailable = $hints > 0;
 
@@ -29,15 +30,17 @@
 
 	function handleUndo() {
 		console.log("handleUndo");
-		StackManager.undo();
+		//StackManager.undo();
+		ResetTree.undo();
 	}
 	function handleRedo() {
 		console.log("handleRedo");
-		StackManager.redo();
+		//StackManager.redo();
+		ResetTree.redo();
 	}
 	function handleReset() {
 		console.log("handleReset - Reset to branch point");
-		while (["ResetCommand", ""].indexOf(StackManager.undo()) === -1) {}
+		ResetTree.reset();
 	}
 </script>
 
