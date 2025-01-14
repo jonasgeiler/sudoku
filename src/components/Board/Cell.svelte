@@ -4,6 +4,7 @@
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { userGrid } from '@sudoku/stores/grid';
+	import { kStore } from '@sudoku/stores/simpleStrategy'
 	import { candidates as Candidate } from '@sudoku/stores/candidates';
 
 	export let value;
@@ -54,10 +55,10 @@
 			{#if hint && !value }
 				<!-- 显示提示数字 -->
 				<button class="cell-btn hint-btn" on:click={() => fillHint(hint)}>
-					{#if hint.length > 1}
-						<Candidates {candidates} />
-					{:else}
+					{#if hint.length === 1}
 						<span class="hint-number">{hint}</span>
+					{:else if hint.length <= kStore.get() }
+						<Candidates {candidates} />
 					{/if}
 				</button>
 			{:else}
