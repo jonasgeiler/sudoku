@@ -13,19 +13,20 @@
 
 	$: hintsAvailable = $hints > 0;
 
-	function handleHint() {
-	    let candidatesList = strategyManager.applyStrategies($userGrid);
-	    for(let row = 0; row < 9; row++) {
-	        for(let col = 0; col < 9; col++) {
+    function handleHint() {
+    	let candidatesList = strategyManager.applyStrategies($userGrid);
+        for(let row = 0; row < 9; row++) {
+    	    for(let col = 0; col < 9; col++) {
                 candidates.clear({x: col, y: row});
                 if($userGrid[row][col] === 0) {
                     candidatesList[row][col].forEach((num) => {
                     candidates.add({x: col, y: row}, num);
                     });
                 }
-	        }
-	    }
-	}
+    	    }
+    	}
+    }
+
 	function handleUndo() {
 		console.log("handleUndo");
 		StackManager.undo();
