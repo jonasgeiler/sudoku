@@ -7,6 +7,7 @@
 	import { kStore } from '@sudoku/stores/simpleStrategy'
 	import { candidates as Candidate } from '@sudoku/stores/candidates';
 	import { stateManager } from '@sudoku/stores/stateManager';
+	import { UndoRedoManager } from '@sudoku/stores/UndoRedoManager';
 
 	export let value;
 	export let cellX;
@@ -36,9 +37,10 @@
 			Candidate.syncWithStrategy();
 
 			stateManager.add_state(userGrid.get());
-			console.log('hint input');
-			console.log(userGrid.get());
-			console.log(stateManager.get_state_dict());
+			UndoRedoManager.newAction(stateManager.get_index(userGrid.get()));
+			// console.log('hint input');
+			// console.log(userGrid.get());
+			// console.log(stateManager.get_state_dict());
 		}
 		cursor.set(cellX - 1, cellY - 1);
 

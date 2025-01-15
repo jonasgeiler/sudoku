@@ -7,6 +7,7 @@
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
+    import { UndoRedoManager } from '@sudoku/stores/UndoRedoManager';
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
@@ -24,9 +25,10 @@
 
 				userGrid.set($cursor, num);
 				stateManager.add_state(userGrid.get());	// 添加状态
-				console.log('keyboard input');
-				console.log(userGrid.get());
-				console.log(stateManager.get_state_dict());
+				UndoRedoManager.newAction(stateManager.get_index(userGrid.get()));
+				// console.log('keyboard input');
+				// console.log(userGrid.get());
+				// console.log(stateManager.get_state_dict());
 			}
 		}
 	}
