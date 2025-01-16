@@ -2,15 +2,15 @@
 	import { onMount } from 'svelte';
 	import { BASE_URL } from '@sudoku/constants';
 	import { modal } from '@sudoku/stores/modal';
-	import { grid } from '@sudoku/stores/grid';
+	import { userGrid, grid, strategySolution } from '@sudoku/stores/grid';
 	import Clipboard from '../../Utils/Clipboard.svelte';
 
 	export let data = {};
 	export let hideModal;
 
-	const sencode = grid.getSencode($grid);
+	const sencode = grid.getSencode($userGrid, $strategySolution);
 
-	const link = BASE_URL + '#' + sencode;
+	const link = sencode;
 	const encodedLink = encodeURIComponent(link);
 	const facebookLink = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedLink;
 	const twitterLink = 'https://twitter.com/intent/tweet?text=Check%20out%20this%20Sudoku%20puzzle!&url=' + encodedLink;
@@ -28,7 +28,7 @@
 		const shareData = {
 			url: link,
 			title: 'Sudoku',
-			text: 'Create & play Sudoku puzzles for free online on sudoku.jonasgeiler.com!'
+			text: 'Create & play Sudoku puzzles on sudoku game!'
 		};
 
 		if ('share' in navigator) {

@@ -46,7 +46,11 @@
 			<input bind:value={settings.hints} class="number-input" id="hints" name="hints" type="number" min="0" max="81" />
 		</div>
 	{/if}
+	<div transition:slide class="inline-flex items-center">
+		<label for="hints" class="flex-grow text-lg">Number of hint steps</label>
 
+		<input bind:value={settings.k} class="number-input" id="k" name="k" type="number" min="1" max="8" />
+	</div>
 	<Switch bind:checked={settings.highlightCells} text="Highlight cells in same row/column/box" id="highlight-cells" />
 	<Switch bind:checked={settings.highlightSame} text="Highlight cells with the same number" id="highlight-matching" />
 	<Switch bind:checked={settings.highlightConflicting} text="Highlight conflicting numbers" id="highlight-conflicting" />
