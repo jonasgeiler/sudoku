@@ -6,6 +6,7 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { candidates } from '@sudoku/stores/candidates';
 	import Cell from './Cell.svelte';
+	import { hintText } from '@sudoku/stores/hints'; // 导入提示文字状态
 
 	function isSelected(cursorStore, x, y) {
 		return cursorStore.x === x && cursorStore.y === y;
@@ -30,6 +31,12 @@
 </script>
 
 <div class="board-padding relative z-10">
+
+	<!-- 新增：提示文字显示区域 -->
+	<div class="hint-text absolute top-0 left-0 p-2 bg-white bg-opacity-75 rounded-br-lg shadow-lg z-20">
+		{$hintText}
+	</div>
+
 	<div class="max-w-xl relative">
 		<div class="w-full" style="padding-top: 100%"></div>
 	</div>
@@ -61,4 +68,16 @@
 	.board-padding {
 		@apply px-4 pb-4;
 	}
+
+	.hint-text {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 8px;
+		/*background-color: rgba(255, 255, 255, 0.75); !* 半透明背景 *!*/
+		/*border-radius: 0 0 8px 0; !* 右下角圆角 *!*/
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影 */
+		z-index: 20; /* 确保提示文字在棋盘之上 */
+	}
+
 </style>
