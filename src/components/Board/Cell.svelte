@@ -4,8 +4,8 @@
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { hintStore } from '@sudoku/stores/hintStore'; // 导入 hintStore
-	import { userGrid } from '@sudoku/stores/grid'
-
+	import { userGrid } from '@sudoku/stores/grid';
+	import { sudokutreemanager } from "@sudoku/stores/state";
 	import { hintText } from '@sudoku/stores/hints'; // 导入 hintText
 	import { reasons_list } from '@sudoku/stores/hints'; // 导入 reasons_list
 	import { get } from 'svelte/store'; //导入 svelte 的 get 方法
@@ -45,6 +45,9 @@
 			if (matchingHint.value.length === 1) {
 				hintval = matchingHint.value[0];
 				userGrid.set({ x: cellX - 1, y: cellY - 1 }, hintval);
+			}
+			else {
+				sudokutreemanager.pushToStack();
 			}
 
 			// 如果找到匹配的提示，才设置显示提示的原因
