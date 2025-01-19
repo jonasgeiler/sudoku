@@ -11,6 +11,7 @@
 	let sencode = data.sencode || '';
 
 	$: enteredSencode = sencode.trim().length !== 0;
+	// Õæ×ó¼ÙÓÒ
 	$: buttonDisabled = enteredSencode ? !validateSencode(sencode) : !DIFFICULTIES.hasOwnProperty(difficulty);
 
 	function handleStart() {

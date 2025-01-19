@@ -1,3 +1,5 @@
+<!-- 把相关的资源集中在一起，以方便管理-->
+
 <script>
 	import Buttons from './Buttons.svelte';
 	import Dropdown from './Dropdown.svelte';

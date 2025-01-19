@@ -36,6 +36,17 @@
 
 <div class="flex flex-col mb-6 space-y-3">
 	<!--<Switch bind:checked={settings.darkTheme} text="Enable dark theme" id="dark-theme" />-->
+	<!-- 新增 hintLevel 选项 -->
+	<div class="inline-flex items-center">
+		<label for="hintLevel" class="flex-grow text-lg">Hint Level:</label>
+		<select id="hintLevel" class="btn btn-small w-24" bind:value={settings.hintLevel}>
+			<option value={1}>Level 1</option>
+			<option value={2}>Level 2</option>
+			<option value={3}>Level 3</option>
+		</select>
+	</div>
+
+	<!-- 其他设置项 -->
 	<Switch bind:checked={settings.displayTimer} text="Display timer while playing" id="display-timer" />
 
 	<Switch bind:checked={hintsLimited} text="Limit the number of hints available" id="hints-limited" />
