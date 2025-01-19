@@ -56,7 +56,7 @@
 			const matchingReason = reasons[cellY-1][cellX-1];
 			console.log("cellX-1:",cellX-1,"cellY-1:",cellY-1,"matchingReason:",matchingReason);
 			if (matchingReason && matchingReason.length) {
-				hintText.set(matchingReason[0]);
+				hintText.set(matchingReason);
 				console.log(matchingReason[0]);
 			}
 
