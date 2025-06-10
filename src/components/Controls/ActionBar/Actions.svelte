@@ -9,6 +9,7 @@
     import { gamePaused } from '@sudoku/stores/game';
     import { modal } from '@sudoku/stores/modal';
     import { SUDOKU_SIZE } from '@sudoku/constants';
+    import { history } from '@sudoku/stores/history';
     
     // 导入提示功能模块 
     import { strategies, findNextHint } from '@sudoku/stores/hints';
@@ -17,6 +18,66 @@
 
     $: hintsAvailable = $hints > 0;
     
+    // 检查是否可以撤销/重做
+    $: canUndo = $history.past.length > 0;
+    $: canRedo = $history.future.length > 0;
+
+    //恢复游戏状态
+    function restoreGameState(move) {
+        if (move && move.position) {
+            // 更新光标位置
+            cursor.set(move.position.x, move.position.y);
+            
+            // 恢复数值
+            userGrid.set(move.position, move.newValue);
+            
+            // 恢复候选数
+            const key = `${move.position.x},${move.position.y}`;
+            if (move.newCandidates) {
+                candidates.set(key, {...move.newCandidates});
+            } else {
+                candidates.clear(move.position);
+            }
+        }
+    }
+
+    // 处理撤销
+    function handleUndo() {
+        if (!$gamePaused && canUndo) {
+            const currentMove = $history.current;
+            if (currentMove && currentMove.position) {
+                // 先恢复当前位置的原始状态
+                userGrid.set(currentMove.position, currentMove.oldValue);
+                
+                // 恢复当前位置的原始候选数
+                const key = `${currentMove.position.x},${currentMove.position.y}`;
+                if (currentMove.oldCandidates) {
+                    candidates.set(key, {...currentMove.oldCandidates});
+                } else {
+                    candidates.clear(currentMove.position);
+                }
+            }
+
+            // 然后撤销到上一步
+            history.undo();
+            const previousMove = $history.current;
+            if (previousMove) {
+                restoreGameState(previousMove);
+            }
+        }
+    }
+
+    // 处理重做
+    function handleRedo() {
+        if (!$gamePaused && canRedo) {
+            history.redo();
+            const move = $history.current;
+            if (move) {
+                restoreGameState(move);
+            }
+        }
+    }
+
     function handleHint() {
         if (!hintsAvailable) return;
 
@@ -100,17 +161,38 @@
             });
         }
     }
+
+    // 记录移动
+    function recordMove(position, oldValue, newValue, oldCandidates = null, newCandidates = null) {
+        if (position) {
+            history.recordMove({
+                position,
+                oldValue,
+                newValue,
+                oldCandidates,
+                newCandidates,
+                timestamp: Date.now() // 添加时间戳以便调试
+            });
+        }
+    }
 </script>
 
 <div class="action-buttons space-x-3">
-
-    <button class="btn btn-round" disabled={$gamePaused} title="Undo">
+    <button 
+      class="btn btn-round" 
+      disabled={$gamePaused || !canUndo} 
+      on:click={handleUndo} 
+      title="撤销">
         <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
         </svg>
     </button>
 
-    <button class="btn btn-round" disabled={$gamePaused} title="Redo">
+    <button 
+      class="btn btn-round" 
+      disabled={$gamePaused || !canRedo} 
+      on:click={handleRedo} 
+      title="重做">
         <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 90 00-8 8v2M21 10l-6 6m6-6l-6-6" />
         </svg>

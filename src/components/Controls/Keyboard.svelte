@@ -3,25 +3,43 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
+	import { history } from '@sudoku/stores/history';
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
+			const position = $cursor;
+			const oldValue = $userGrid[position.y][position.x];
+			const oldCandidates = $candidates[position.x + ',' + position.y];
+
+			// 首先记录历史，再更新状态
+			const moveData = {
+				position: {...position}, 
+				oldValue,
+				newValue: num,
+				oldCandidates: oldCandidates ? {...oldCandidates} : null,
+				newCandidates: null,
+				timestamp: Date.now()
+			};
+
+			// 记录操作到历史
+			history.recordMove(moveData);
+
 			if ($notes) {
 				if (num === 0) {
-					candidates.clear($cursor);
+					candidates.clear(position);
 				} else {
-					candidates.add($cursor, num);
+					const newCandidates = candidates.add(position, num);
+					// 更新移动数据中的候选数
+					moveData.newCandidates = {...newCandidates};
 				}
-				userGrid.set($cursor, 0);
 			} else {
-				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
-					candidates.clear($cursor);
+				if (oldCandidates) {
+					candidates.clear(position);
 				}
-
-				userGrid.set($cursor, num);
+				userGrid.set(position, num);
 			}
 		}
 	}
