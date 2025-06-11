@@ -15,6 +15,7 @@
     import { strategies, findNextHint } from '@sudoku/stores/hints';
     // 导入 svelte 的 get 函数
     import { get } from 'svelte/store';
+    import { backtrack } from '@sudoku/stores/backtrack';
 
     $: hintsAvailable = $hints > 0;
     
@@ -81,10 +82,10 @@
     function handleHint() {
         if (!hintsAvailable) return;
 
-        const userGridData = [...$userGrid];
-        let hint;
-        
         try {
+            const userGridData = [...$userGrid];
+            let hint;
+            
             // 检查是否有选中格子
             if ($cursor.x !== null && $cursor.y !== null) {
                 // 如果选中的格子已有数字，直接寻找下一个可提示的格子
@@ -99,55 +100,69 @@
                 hint = findNextHint(userGridData, null, null);
             }
 
-            if (!hint) {
+            if (hint) {
+                // 移动光标到提示的格子
+                cursor.set(hint.x, hint.y);
+                
+                if (hint.candidates && hint.candidates.length > 1) {
+                    // 记录分支点
+                    backtrack.recordBranch(
+                        {x: hint.x, y: hint.y}, 
+                        hint.candidates.filter(c => c !== 0), // 过滤掉0
+                        null,
+                        hint.explanation // 保存提示说明
+                    );
+                    
+                    modal.show('backtrackSelect', {
+                        position: {x: hint.x, y: hint.y},
+                        candidates: hint.candidates.filter(c => c !== 0),
+                        explanation: hint.explanation
+                    });
+                } else {
+                    // 如果有确定答案
+                    if (hint.value !== null && hint.value !== undefined) {
+                        // 填入答案
+                        userGrid.set({x: hint.x, y: hint.y}, hint.value);
+                        
+                        // 显示策略提示
+                        modal.show('confirm', {
+                            title: strategies[hint.strategy]?.name || "提示",
+                            text: hint.explanation,
+                            button: "明白了"
+                        });
+                    } else {
+                        // 有多个候选值，显示提示但不自动填入
+                        if (hint.candidates && hint.candidates.length > 0) {
+                            // 构建友好的提示信息
+                            let notesTip = "";
+                            if (!$notes) {
+                                notesTip = "您可以点击右下角的笔记按钮 ✏️，然后输入这些数字来标记候选值。";
+                            } else {
+                                notesTip = "笔记模式已开启 ✅，您现在可以直接输入这些数字来标记候选值。";
+                            }
+                            
+                            modal.show('confirm', {
+                                title: "当前无法确定该格的答案 🤔",
+                                text: `在第${hint.y + 1}行第${hint.x + 1}列可填入的候选值有: ${hint.candidates.join(', ')}\n\n${hint.explanation}\n\n${notesTip}`,
+                                button: "明白了"
+                            });
+                        } else {
+                            modal.show('confirm', {
+                                title: "提示",
+                                text: "无法为此格子提供候选值。",
+                                button: "确定"
+                            });
+                            return;
+                        }
+                    }
+                }
+            } else {
                 modal.show('confirm', {
                     title: "提示",
                     text: "没有找到可提示的格子。",
                     button: "确定"
                 });
                 return;
-            }
-            
-            console.log("找到提示:", hint);
-            
-            // 移动光标到提示的格子
-            cursor.set(hint.x, hint.y);
-            
-            // 如果有确定答案
-            if (hint.value !== null && hint.value !== undefined) {
-                // 填入答案
-                userGrid.set({x: hint.x, y: hint.y}, hint.value);
-                
-                // 显示策略提示
-                modal.show('confirm', {
-                    title: strategies[hint.strategy]?.name || "提示",
-                    text: hint.explanation,
-                    button: "明白了"
-                });
-            } else {
-                // 有多个候选值，显示提示但不自动填入
-                if (hint.candidates && hint.candidates.length > 0) {
-                    // 构建友好的提示信息
-                    let notesTip = "";
-                    if (!$notes) {
-                        notesTip = "您可以点击右下角的笔记按钮 ✏️，然后输入这些数字来标记候选值。";
-                    } else {
-                        notesTip = "笔记模式已开启 ✅，您现在可以直接输入这些数字来标记候选值。";
-                    }
-                    
-                    modal.show('confirm', {
-                        title: "当前无法确定该格的答案 🤔",
-                        text: `在第${hint.y + 1}行第${hint.x + 1}列可填入的候选值有: ${hint.candidates.join(', ')}\n\n${hint.explanation}\n\n${notesTip}`,
-                        button: "明白了"
-                    });
-                } else {
-                    modal.show('confirm', {
-                        title: "提示",
-                        text: "无法为此格子提供候选值。",
-                        button: "确定"
-                    });
-                    return;
-                }
             }
             
             // 消耗一个提示次数
@@ -175,14 +190,44 @@
             });
         }
     }
+
+    function handleBacktrack() {
+        if ($gamePaused) return;
+        
+        const currentBranch = $backtrack.currentBranch;
+        if (!currentBranch) {
+            modal.show('confirm', {
+                title: "回溯",
+                text: "没有可用的回溯点。",
+                button: "确定"
+            });
+            return;
+        }
+        
+        const branch = $backtrack.branchPoints[currentBranch];
+        modal.show('backtrackSelect', {
+            position: branch.position
+        });
+    }
 </script>
 
 <div class="action-buttons space-x-3">
+
+    <button 
+        class="btn btn-round" 
+        disabled={$gamePaused} 
+        on:click={handleBacktrack}
+        title="回溯">
+        <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a10 10 0 1 1 -2 4 m2 -4 l6 2m-6-2l2 -6"/>
+        </svg>
+    </button>
+
     <button 
       class="btn btn-round" 
       disabled={$gamePaused || !canUndo} 
       on:click={handleUndo} 
-      title="撤销">
+      title="前进">
         <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
         </svg>
@@ -192,7 +237,7 @@
       class="btn btn-round" 
       disabled={$gamePaused || !canRedo} 
       on:click={handleRedo} 
-      title="重做">
+      title="后退">
         <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 90 00-8 8v2M21 10l-6 6m6-6l-6-6" />
         </svg>
@@ -216,6 +261,7 @@
         <span class="badge tracking-tighter" class:badge-primary={$notes}>{$notes ? 'ON' : 'OFF'}</span>
     </button>
 
+    
 </div>
 
 

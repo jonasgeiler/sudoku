@@ -4,9 +4,8 @@
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
 	import { history } from '@sudoku/stores/history';
-
-	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
+	import { backtrack } from '@sudoku/stores/backtrack';  // 添加这一行
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
@@ -24,21 +23,23 @@
 				timestamp: Date.now()
 			};
 
-			// 记录操作到历史
-			history.recordMove(moveData);
-
 			if ($notes) {
 				if (num === 0) {
+					moveData.newValue = oldValue;
+					moveData.newCandidates = null;
+					history.recordMove(moveData);
 					candidates.clear(position);
 				} else {
 					const newCandidates = candidates.add(position, num);
-					// 更新移动数据中的候选数
+					moveData.newValue = oldValue;
 					moveData.newCandidates = {...newCandidates};
+					history.recordMove(moveData);
 				}
 			} else {
 				if (oldCandidates) {
 					candidates.clear(position);
 				}
+				history.recordMove(moveData);
 				userGrid.set(position, num);
 			}
 		}
