@@ -7,7 +7,7 @@ body {
 }
 
 #app {
-	@apply flex flex-col h-screen;
+	@apply flex flex-col min-h-screen;
 }
 
 #app > header {
