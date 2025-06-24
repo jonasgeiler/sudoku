@@ -4,6 +4,7 @@
 	import game from '@sudoku/game';
 	import { modal } from '@sudoku/stores/modal';
 	import { gameWon } from '@sudoku/stores/game';
+	import { hintstate } from '@sudoku/stores/hints';
 	import Board from './components/Board/index.svelte';
 	import Controls from './components/Controls/index.svelte';
 	import Header from './components/Header/index.svelte';
@@ -13,6 +14,13 @@
 		if (won) {
 			game.pause();
 			modal.show('gameover');
+		}
+	});
+
+	hintstate.subscribe(state => {
+		console.log("---------------更新---------------------",state);
+		if (!state) {
+			modal.show('nosolution');
 		}
 	});
 
