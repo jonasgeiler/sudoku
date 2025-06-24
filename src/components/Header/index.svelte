@@ -1,4 +1,4 @@
-<script>
+	<script>
 	import Buttons from './Buttons.svelte';
 	import Dropdown from './Dropdown.svelte';
 </script>
