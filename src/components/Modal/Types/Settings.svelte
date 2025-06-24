@@ -11,8 +11,11 @@
 
 	let hintsLimited = settings.hintsLimited;
 
+	let customHintCount = settings.hintsStep;
+
 	function handleSave() {
 		settings.hintsLimited = hintsLimited;
+		settings.hintsStep = customHintCount;
 
 		if (settings.hints < 0) settings.hints = 0;
 		if (settings.hints > MAX_HINTS) settings.hints = MAX_HINTS;
@@ -46,6 +49,19 @@
 			<input bind:value={settings.hints} class="number-input" id="hints" name="hints" type="number" min="0" max="81" />
 		</div>
 	{/if}
+
+	<div class="flex items-center space-x-3">
+		<label for="custom-hint-count" class="text-lg">Custom Hint Count</label>
+		<input
+			bind:value={customHintCount}
+			class="number-input"
+			id="custom-hint-count"
+			name="custom-hint-count"
+			type="number"
+			min="1"
+			max="9"
+		/>
+	</div>
 
 	<Switch bind:checked={settings.highlightCells} text="Highlight cells in same row/column/box" id="highlight-cells" />
 	<Switch bind:checked={settings.highlightSame} text="Highlight cells with the same number" id="highlight-matching" />

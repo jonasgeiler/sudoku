@@ -6,25 +6,34 @@
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
+    import NumberKeyboard from './NumberKeyboard.svelte';
 
 	function handleKeyButton(num) {
-		if (!$keyboardDisabled) {
-			if ($notes) {
-				if (num === 0) {
-					candidates.clear($cursor);
-				} else {
-					candidates.add($cursor, num);
-				}
-				userGrid.set($cursor, 0);
-			} else {
-				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
-					candidates.clear($cursor);
-				}
-
-				userGrid.set($cursor, num);
-			}
-		}
+		candidates.clear($cursor);
 	}
+//	function handleKeyButton(num) {
+//		if (!$keyboardDisabled) {
+//			if ($notes) {
+//				if (num === 0) {
+//					candidates.clear($cursor);
+//				} else {
+//					candidates.add($cursor, num);
+//				}
+//				userGrid.set($cursor, 0);
+//			} else {
+//				// 多候选值输入，启用回溯功能
+//				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y) && $candidates[$cursor.x + ',' + $cursor.y].length > 1) {
+//					$commandStack.push(new ResetCommand(copyUserGrid($userGrid), copyCandidates($candidates), num, {'x': $cursor.x, 'y': $cursor.y}));
+//				}
+//
+//				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
+//					candidates.clear($cursor);
+//				}
+//
+//				userGrid.set($cursor, num);
+//			}
+//		}
+//	}
 
 	function handleKey(e) {
 		switch (e.key || e.keyCode) {
@@ -86,9 +95,12 @@
 				</svg>
 			</button>
 		{:else}
-			<button class="btn btn-key" disabled={$keyboardDisabled} title="Insert {keyNum + 1}" on:click={() => handleKeyButton(keyNum + 1)}>
+			<NumberKeyboard number={keyNum + 1}/>
+<!--
+			<button class="btn btn-key" disabled={$keyboardDisabled || !numberEnable.enable(keyNum + 1)} title="Insert {keyNum + 1}" on:click={() => handleKeyButton(keyNum + 1)}>
 				{keyNum + 1}
 			</button>
+-->
 		{/if}
 	{/each}
 

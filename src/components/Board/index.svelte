@@ -4,7 +4,7 @@
 	import { grid, userGrid, invalidCells } from '@sudoku/stores/grid';
 	import { settings } from '@sudoku/stores/settings';
 	import { cursor } from '@sudoku/stores/cursor';
-	import { candidates } from '@sudoku/stores/candidates';
+	import { candidates, candidatesCnt } from '@sudoku/stores/candidates';
 	import Cell from './Cell.svelte';
 
 	function isSelected(cursorStore, x, y) {
@@ -43,6 +43,7 @@
 					      cellY={y + 1}
 					      cellX={x + 1}
 					      candidates={$candidates[x + ',' + y]}
+					      candidatesCount = {$candidatesCnt[x + ',' + y]}
 					      disabled={$gamePaused}
 					      selected={isSelected($cursor, x, y)}
 					      userNumber={$grid[y][x] === 0}
