@@ -5,6 +5,9 @@ import confirm from './Confirm.svelte';
 import prompt from './Prompt.svelte';
 import welcome from './Welcome.svelte';
 import gameover from './GameOver.svelte';
+import nohints from './Nohints.svelte'
+import custom from './Custom.svelte'
+import solver from './Solver.svelte'
 
 export default {
 	share,
@@ -13,5 +16,8 @@ export default {
 	confirm,
 	prompt,
 	welcome,
-	gameover
+	gameover,
+	nohints,
+	custom,
+	solver
 }

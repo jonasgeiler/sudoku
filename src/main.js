@@ -7,7 +7,8 @@ const app = new App({
 export default app;
 
 
-// TODO: Warn when hint not possible
+
+
 // TODO: Undo/Redo
 // TODO: Import sudoku
 // TODO: Creator mode

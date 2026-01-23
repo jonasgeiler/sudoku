@@ -5,6 +5,8 @@
 	import { slide, fade } from 'svelte/transition';
 	import { DIFFICULTIES, DROPDOWN_DURATION, DIFFICULTY_CUSTOM } from '@sudoku/constants';
 	import { difficulty } from '@sudoku/stores/difficulty';
+	import SudokuParser from '@sudoku/stores/solver'
+
 
 	let dropdownVisible = false;
 
@@ -14,11 +16,42 @@
 
 		modal.show('confirm', {
 			title: 'New Game',
-			text: 'Start new game with difficulty "' + DIFFICULTIES[difficultyValue] + '"?',
+			text: 'Start new game with difficulty ' + DIFFICULTIES[difficultyValue] + '"?',
 			button: 'Continue',
 			onHide: game.resume,
 			callback: () => {
 				game.startNew(difficultyValue);
+			},
+		});
+	}
+	function extractPuzzleFromUrl(url) {
+		// 1. 从URL中解析出 'bd' 参数
+		const urlParams = new URL(url).searchParams;
+		const boardString = urlParams.get('bd'); // 得到 "400709020000020000090008000..."
+
+		// 2. 验证并返回
+		if (boardString && boardString.length === 81) {
+			return boardString; // 这就是81位的题目序列
+		} else {
+			throw new Error('无法从URL中解析出有效的81位数独题目。');
+		}
+	}
+	function handleSolver(){
+		dropdownVisible = false;
+		game.pause()
+		modal.show('solver', {
+			title: 'Solver',
+			text: '',
+			button: 'Continue',
+			onHide: game.resume,
+			callback: (result) => {
+				const parser = new SudokuParser();
+				const sequence = parser.parseUrl(result);
+				game.createNew({
+					difficulty: "hard",
+					sequence: sequence
+				})
+				
 			},
 		});
 	}
@@ -27,15 +60,30 @@
 		dropdownVisible = false;
 		game.pause();
 
-		modal.show('confirm', {
-			title: 'Create Own',
-			text: 'Switch to the creator mode to create your own Sudoku puzzle?',
-			button: 'Continue',
+		// 在你的代码中调用
+		modal.show('custom', {
+			title: 'Create Sudoku Puzzle',
+			text: 'Fill in the Sudoku puzzle and select difficulty.',
+			button: 'Validate & Save',
+			cancelText: 'Cancel',
+			
+			// 可选的初始序列
+			initialSequence: '530070000600195000098000060800060003400803001700020006060000280000419005000080079',
+			
+			// 可选的默认难度（默认是 'veryeasy'）
+			defaultDifficulty: 'medium', // 'veryeasy', 'easy', 'medium', 'hard'
+			
+			// 关闭时的回调
 			onHide: game.resume,
-			callback: () => {
-				//game.startCreatorMode();
-			},
+			
+			// 确认时的回调
+			callback: (result) => {
+				if (result.valid) {
+					game.createNew(result)
+				} 
+			}
 		});
+		
 	}
 
 	function handleEnterCode() {
@@ -53,6 +101,7 @@
 			},
 			validate: validateSencode
 		});
+		
 	}
 
 	function showDropdown() {
@@ -95,7 +144,6 @@
 				<svg class="icon-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
 					<path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
 				</svg>
-
 				<span class="align-middle">Create Own</span>
 			</a>
 			<a class="dropdown-item" on:click|preventDefault={handleEnterCode} href="/enter-code" title="Enter a Sudoku puzzle code from a friend">
@@ -103,8 +151,14 @@
 					<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
 					<path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
 				</svg>
-
 				<span class="align-middle">Enter Code</span>
+			</a>
+			<a class="dropdown-item" on:click|preventDefault={handleSolver} href="/solver-code" title="crawl the problem from wiki">
+				<svg class="icon-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+					<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+					<path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+				</svg>
+				<span class="align-middle">Import Solver</span>
 			</a>
 		</div>
 	{/if}

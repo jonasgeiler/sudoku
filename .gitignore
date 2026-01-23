@@ -5,3 +5,5 @@
 .idea
 tailwind-full.config.js
 pnpm-lock.yaml
+package-lock.json
+.README.analysis.md
