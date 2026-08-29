@@ -3,6 +3,8 @@
 	import { startNew, startCustom } from '@sudoku/game';
 	import { validateSencode } from '@sudoku/sencode';
 	import { DIFFICULTIES } from '@sudoku/constants';
+    import { gridSerialization, ResetTree } from '@sudoku/Resettree';
+    import { userGrid } from '@sudoku/stores/grid';
 
 	export let data = {};
 	export let hideModal;
@@ -20,6 +22,7 @@
 			startNew(difficulty);
 		}
 
+		ResetTree.initiate(gridSerialization($userGrid));
 		hideModal();
 	}
 </script>
