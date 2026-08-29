@@ -1,0 +1,170 @@
+import { BOX_SIZE, SUDOKU_SIZE } from '@sudoku/constants';
+import { decodeSencode, encodeSudoku } from '@sudoku/sencode';
+import { generateSudoku, solveSudoku } from '@sudoku/sudoku';
+import { derived, writable } from 'svelte/store';
+import { hints } from './hints';
+
+function createGrid() {
+    const grid = writable([
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+
+    return {
+        subscribe: grid.subscribe,
+
+        // 导入字符串方法（81位数字字符串）
+		// 该字符串应为0-9的数字，长度为81
+        importString(str) {
+            if (!str || str.length !== 81 || !/^[0-9]+$/.test(str)) {
+                return false;
+            }
+            
+            try {
+                const puzzle = [];
+                // 将81位字符串转换为9x9数组
+                for (let i = 0; i < 9; i++) {
+                    const row = [];
+                    for (let j = 0; j < 9; j++) {
+                        const value = parseInt(str[i * 9 + j]);
+                        if (isNaN(value) || value < 0 || value > 9) {
+                            return false;
+                        }
+                        row.push(value);
+                    }
+                    puzzle.push(row);
+                }
+                
+                // 更新grid
+                grid.set(puzzle);
+				// 确保也更新 userGrid（用户填写的内容）
+                userGrid.set(puzzle.map(row => [...row]));
+                return true;
+            } catch (e) {
+                console.error('导入失败:', e);
+                return false;
+            }
+        },
+
+        generate(difficulty) {
+            grid.set(generateSudoku(difficulty));
+        },
+
+        decodeSencode(sencode) {
+            grid.set(decodeSencode(sencode));
+        },
+
+        get(gridStore, x, y) {
+            return gridStore[y][x];
+        },
+
+        getSencode(gridStore) {
+            return encodeSudoku(gridStore);
+		},
+    };
+}
+
+export const grid = createGrid();
+
+
+function createUserGrid() {
+	const userGrid = writable([
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+	]);
+
+	grid.subscribe($grid => {
+		let newGrid = [];
+
+		for (let y = 0; y < SUDOKU_SIZE; y++) {
+			newGrid[y] = [];
+			for (let x = 0; x < SUDOKU_SIZE; x++) {
+				newGrid[y][x] = $grid[y][x];
+			}
+		}
+
+		userGrid.set(newGrid);
+	});
+
+	return {
+		subscribe: userGrid.subscribe,
+
+		set: (pos, value) => {
+			userGrid.update($userGrid => {
+				$userGrid[pos.y][pos.x] = value;
+				return $userGrid;
+			});
+		},
+
+		applyHint: (pos) => {
+			hints.useHint();
+			userGrid.update($userGrid => {
+				const solvedSudoku = solveSudoku($userGrid);
+				$userGrid[pos.y][pos.x] = solvedSudoku[pos.y][pos.x];
+				return $userGrid;
+			});
+		},
+	};
+}
+
+export const userGrid = createUserGrid();
+
+export const invalidCells = derived(userGrid, $userGrid => {
+	const _invalidCells = [];
+
+	const addInvalid = (x, y) => {
+		const xy = x + ',' + y;
+		if (!_invalidCells.includes(xy)) _invalidCells.push(xy);
+	};
+
+	for (let y = 0; y < SUDOKU_SIZE; y++) {
+		for (let x = 0; x < SUDOKU_SIZE; x++) {
+
+			const value = $userGrid[y][x];
+
+			if (value) {
+				for (let i = 0; i < SUDOKU_SIZE; i++) {
+					// Check the row
+					if (i !== x && $userGrid[y][i] === value) {
+						addInvalid(x, y);
+					}
+
+					// Check the column
+					if (i !== y && $userGrid[i][x] === value) {
+						addInvalid(x, i);
+					}
+				}
+
+				// Check the box
+				const startY = Math.floor(y / BOX_SIZE) * BOX_SIZE;
+				const endY = startY + BOX_SIZE;
+				const startX = Math.floor(x / BOX_SIZE) * BOX_SIZE;
+				const endX = startX + BOX_SIZE;
+				for (let row = startY; row < endY; row++) {
+					for (let col = startX; col < endX; col++) {
+						if (row !== y && col !== x && $userGrid[row][col] === value) {
+							addInvalid(col, row);
+						}
+					}
+				}
+			}
+
+		}
+	}
+
+	return _invalidCells;
+}, []);

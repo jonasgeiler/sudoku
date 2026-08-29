@@ -1,0 +1,72 @@
+* [33mf7090f7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature-wiki-integration[m[33m)[m 完成题目导入的导入url部分
+* [33m3e95992[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates (#1)
+* [33m37060f4[m docs: updated readme
+* [33m6746555[m chore(deps): pin dependencies
+* [33mce9543d[m ci: fixed indentation
+* [33mbb6b175[m chore: updated domain and branding
+* [33macf0a03[m Updated bot user
+* [33m9f3fbb4[m Added analytics
+* [33m146fff2[m Improved imports
+* [33m185b6d6[m improved UX
+* [33ma3f1f41[m Fixed tailwindcss config (again)
+* [33m7a2df88[m Fixed tailwindcss config
+* [33m3d1fa52[m Updated build procedure
+* [33m7ea1567[m Added random gameover message
+* [33m382d865[m Changed wording from 'Sudoku' to 'Sudoku puzzle' and added confirmation modal when changing to creator mode
+* [33m3596d5c[m A11Y improvements
+* [33madb04d6[m Update actions/setup-node
+* [33m675edf1[m Open native share popup if possible and some rebranding
+* [33mef808d3[m Added game over screen
+* [33m0c447e9[m Made candidates better looking
+* [33m3182960[m Actually fixed cursor bug
+* [33m56ad6c7[m Fixed cursor bug
+* [33mbed2deb[m Changed cursor position to zero-based
+* [33m1c39fde[m Added candidates/notes feature First draft
+* [33m176a5b5[m Improved font scaling
+* [33m7b126cb[m Jump to other end when moving cursor out of bounds
+* [33m0a2ff81[m Show a message in welcome modal when opening a shared sudoku
+* [33mbbb781d[m Slight A11Y improvement of welcome modal
+* [33mf12585e[m Added welcome modal
+* [33mc4274a7[m Added some comments
+* [33mcd94384[m Wait a bit before resuming game after dropdown
+* [33m5818b97[m Improved timer store
+* [33m1079d3a[m Did a lot of refactoring
+* [33m3847c7a[m Added notes store
+* [33ma4e1f7f[m Only display number as red when user number
+* [33m2157a81[m User Grid now inherits Grid and moved all cell calculations into board and other improvements
+* [33m129f342[m Improved hints store
+* [33m539d74d[m improved invalidCells store
+* [33m7f3f133[m Improved validation
+* [33m07795db[m Validate cells
+* [33m7455062[m Added WASD support
+* [33mb8e7e86[m Added keyboard support
+* [33mc5b870d[m Made Controls even more responsive
+* [33m3d95b29[m Made Controls more responsive
+* [33mfe9e124[m Increased maximum amount of hints
+* [33m8309580[m Improved timeToString function
+* [33mde3a543[m Removed some more unused imports
+* [33mbea8160[m Removed some unused files and imports
+* [33ma9501ac[m Reduced need of get() store function
+* [33m0795f1b[m Improved timer and start/stop it when opening modals
+* [33m2cc5f91[m Added hints setting and store
+* [33mae0d0f5[m Implemented Pause Game
+* [33m97258e2[m Fixed same number highlight bug
+* [33m1faabb6[m Share modal now showing actual sencode
+* [33m7ef09f4[m Added basic grid functionality
+* [33mfc7dd78[m Improved share and QR code modals Share has close button, QR code has back button
+* [33mb885676[m Auto-close dropdown after difficulty change
+* [33md147a74[m Improved live reload
+* [33ma8e3974[m Improved PurgeCSS
+* [33m41f6527[m Fixed purgecss config
+* [33m363ca4b[m Made 404 page independent
+* [33mfd56b91[m Improved build and inlined critical css
+* [33m6a1e560[m Dumped Sapper and use Svelte only
+* [33mc7c0119[m Updated manifest.json
+* [33mf4f4991[m Added github workflow
+* [33m38c64ea[m Added Modals, added stores, moved components
+* [33m978991a[m Refactored @sudoku module
+* [33m66a1678[m Complete rework of the Project
+* [33mf9985d7[m Rename index.php to index.html
+* [33mf5f4637[m Added screenshot
+* [33m7a5177d[m Initial Commit locally
+* [33madc7fb1[m Initial commit

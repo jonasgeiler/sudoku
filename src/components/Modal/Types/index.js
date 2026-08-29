@@ -6,6 +6,11 @@ import prompt from './Prompt.svelte';
 import welcome from './Welcome.svelte';
 import gameover from './GameOver.svelte';
 
+
+
+
+
+
 export default {
 	share,
 	qrcode,
