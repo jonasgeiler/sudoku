@@ -3,25 +3,44 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
-
-	// TODO: Improve keyboardDisabled
+	import { history } from '@sudoku/stores/history';
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
+	import { backtrack } from '@sudoku/stores/backtrack';  // 添加这一行
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
+			const position = $cursor;
+			const oldValue = $userGrid[position.y][position.x];
+			const oldCandidates = $candidates[position.x + ',' + position.y];
+
+			// 首先记录历史，再更新状态
+			const moveData = {
+				position: {...position}, 
+				oldValue,
+				newValue: num,
+				oldCandidates: oldCandidates ? {...oldCandidates} : null,
+				newCandidates: null,
+				timestamp: Date.now()
+			};
+
 			if ($notes) {
 				if (num === 0) {
-					candidates.clear($cursor);
+					moveData.newValue = oldValue;
+					moveData.newCandidates = null;
+					history.recordMove(moveData);
+					candidates.clear(position);
 				} else {
-					candidates.add($cursor, num);
+					const newCandidates = candidates.add(position, num);
+					moveData.newValue = oldValue;
+					moveData.newCandidates = {...newCandidates};
+					history.recordMove(moveData);
 				}
-				userGrid.set($cursor, 0);
 			} else {
-				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
-					candidates.clear($cursor);
+				if (oldCandidates) {
+					candidates.clear(position);
 				}
-
-				userGrid.set($cursor, num);
+				history.recordMove(moveData);
+				userGrid.set(position, num);
 			}
 		}
 	}

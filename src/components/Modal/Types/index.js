@@ -5,6 +5,12 @@ import confirm from './Confirm.svelte';
 import prompt from './Prompt.svelte';
 import welcome from './Welcome.svelte';
 import gameover from './GameOver.svelte';
+import BacktrackSelector from './BacktrackSelector.svelte';
+
+
+
+
+
 
 export default {
 	share,
@@ -13,5 +19,6 @@ export default {
 	confirm,
 	prompt,
 	welcome,
-	gameover
+	gameover,
+	backtrackSelect: BacktrackSelector
 }
